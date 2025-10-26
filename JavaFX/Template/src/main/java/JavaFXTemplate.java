@@ -12,6 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -24,10 +27,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class Welcome extends Application {
+public class JavaFXTemplate extends Application {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		launch(args);
 	}
 
@@ -37,44 +39,45 @@ public class Welcome extends Application {
 		// TODO Auto-generated method stub
 		primaryStage.setTitle("Start Page");
 
-		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
-		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
+		// menu
+		MenuBar menuBar = new MenuBar();
+		Menu menu = new Menu("Menu");
 
-		ImageView imageView = new ImageView(image);
-		
+		MenuItem rulesItem = new MenuItem("Rules");
+        //rulesItem.setOnAction(e -> showRules());
 
-		//Setting the position of the image 
-		imageView.setX(50); 
-		imageView.setY(25); 
+        MenuItem oddsItem = new MenuItem("Odds");
+        //oddsItem.setOnAction(e -> showOdds());
 
-		//setting the fit height and width of the image view 
-		imageView.setFitHeight(455); 
-		imageView.setFitWidth(500); 
-		
-		//Setting the preserve ratio of the image view 
-		imageView.setPreserveRatio(true);  
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.setOnAction(e -> primaryStage.close());
 
+        menu.getItems().addAll(rulesItem, oddsItem, exitItem);
+        menuBar.getMenus().add(menu);
+
+		// text
 		Label text1 = new Label("ALEX'S WORLD FAMOUS");
 		Label text2 = new Label("KENO");
 		Label text3 = new Label("GAME");
-
 		String smallTextStyle = 
 			"-fx-text-fill: black;" + 
 			"-fx-font-size: 18px;";
-
 		text1.setStyle(smallTextStyle); // "ALEX'S WORLD FAMOUS"
 		text3.setStyle(smallTextStyle); // "GAME"
-
-		
 		text2.setStyle( // For "KENO"
 			"-fx-text-fill: black;" + 
 			"-fx-font-size: 100px;" +       
 			"-fx-font-weight: normal;"
 		);
-
 		VBox textBox = new VBox(1, text1, text2, text3); // With Spacing of 10
 		
+
+
 		Button startButton = new Button("START");
+		// startButton.setOnAction(e -> {
+        //     setupGameScene(); // create game scene
+        //     window.setScene(gameScene);
+        // });
 		Label startText = new Label("LOOSE ALL YOUR MONEY");
 		VBox buttonBox = new VBox(10, startText, startButton); // With Spacing of 10
 
@@ -96,6 +99,18 @@ public class Welcome extends Application {
 			"-fx-font-weight: bold;" +
 			"-fx-padding: 10px;"
 		);
+
+		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
+		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
+		ImageView imageView = new ImageView(image);
+		//Setting the position of the image 
+		imageView.setX(50); 
+		imageView.setY(25); 
+		//setting the fit height and width of the image view 
+		imageView.setFitHeight(455); 
+		imageView.setFitWidth(500); 
+		//Setting the preserve ratio of the image view 
+		imageView.setPreserveRatio(true);  
 
 		textBox.setAlignment(Pos.CENTER);
 		buttonBox.setAlignment(Pos.CENTER);
@@ -128,6 +143,8 @@ public class Welcome extends Application {
 		// BorderPane.setMargin(buttonBox, new Insets(50));
         // BorderPane.setMargin(text2, new Insets(50));
 				
+		borderPane.setTop(menuBar);
+
 		Scene scene = new Scene(borderPane, 700,700);
 		primaryStage.setScene(scene);
 		primaryStage.show();
