@@ -26,7 +26,7 @@ public class GameScene {
     private Bet currentBet;
     private int spotsSelected;
     private Stage stage;
-
+    private int numDrawings = 1;
 
     public GameScene(Stage stage) {
         this.stage = stage;
@@ -197,7 +197,6 @@ public class GameScene {
 
 
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
-
         HBox secondRow = new HBox(10, drawCost, ticketBox);
 
         // ---- Bottom mini menu ----
@@ -207,7 +206,7 @@ public class GameScene {
             String selected = spotsBox.getValue();
             if (selected != null) {
                 spotsSelected = Integer.parseInt(selected);
-                currentBet = new Bet(spotsSelected, 1);
+                currentBet = new Bet(spotsSelected, numDrawings);
                 game.setBet(currentBet);
                 System.out.println("Selected: " + spotsBox.getValue());
                 enableBetCard();
@@ -228,46 +227,32 @@ public class GameScene {
         );
 
         // ---- DRAW BUTTON ----
-        Button drawButton = new Button("Draw");
-        drawButton.setStyle(
+        ComboBox<String> drawBox = new ComboBox<>(FXCollections.observableArrayList("1", "2", "3", "4"));
+        drawBox.setPromptText("Draws");
+        drawBox.setOnAction(event -> {
+            if (drawBox.getValue() != null) {
+                numDrawings = Integer.parseInt(drawBox.getValue());
+            }
+        });
+
+        drawBox.setStyle(
             "-fx-background-color: white;" + 
             "-fx-text-fill: black;" + 
-            "-fx-font-size: 14px;" + 
-            "-fx-font-weight: normal;" +
-            "-fx-background-radius: 20;" +
-            "-fx-border-color: #C0C0C0;" + 
+            "-fx-font-size: 12px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
             "-fx-border-width: 1;" +
-            "-fx-border-radius: 20;" +
-            "-fx-padding: 5 15 5 15;"
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
         );
 
-        HBox firstRow = new HBox(10, spotsBox, drawButton);
-
-        // Button watchDrawLabel = new Button("Watch Drawings");
-        // watchDrawLabel.setStyle(
-        //     "-fx-background-color: #D3D3D3;" +
-        //     "-fx-text-fill: black;" + 
-        //     "-fx-font-size: 14px;" +
-        //     "-fx-font-weight: normal;" +
-        //     "-fx-background-radius: 5;" +
-        //     "-fx-padding: 5 10 5 10;"
-        // );
-        Button skipButton = new Button("Skip to Results");
-        skipButton.setStyle(
-            "-fx-background-color: #D3D3D3;" +
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: normal;" +
-            "-fx-background-radius: 5;" +
-            "-fx-padding: 5 10 5 10;"
-        );
-        HBox thirdRow = new HBox(10, skipButton);
+        HBox firstRow = new HBox(10, spotsBox, drawBox);
 
         firstRow.setAlignment(Pos.CENTER);
         secondRow.setAlignment(Pos.CENTER);
-        thirdRow.setAlignment(Pos.CENTER);
 
-        VBox miniMenu = new VBox(10, firstRow, secondRow, thirdRow);
+        VBox miniMenu = new VBox(10, firstRow, secondRow);
         miniMenu.setAlignment(Pos.TOP_CENTER);
         miniMenu.setStyle(
             "-fx-padding: 20 0 0 0;"
