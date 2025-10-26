@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import javafx.util.Duration;
 
 public class GameScene {
     private Scene scene;
@@ -187,13 +188,26 @@ public class GameScene {
             int index = 1;
             for (var node : betCardGrid.getChildren()) {
                 if (draw.contains(index)) {
-                    node.setStyle("-fx-background-radius: 50;" + 
-                          "-fx-border-radius: 50;" +  
-                          "-fx-background-color: #a5a5a5ff;" +
-                          "-fx-text-fill: black;" +
-                          "-fx-font-weight: bold;" +
-                          "-fx-border-color: #FFD700;" + // Yellow/Gold Hex Code
-                          "-fx-border-width: 3px;");
+                    if (matches.contains(index)){
+                        node.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #2bff00ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;"+
+                                        "-fx-border-color: #FFD700;" +
+                                        "-fx-border-width: 3px;");
+                    }
+                    else{
+                        node.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #a5a5a5ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;" +
+                                        "-fx-border-color: #FFD700;" + 
+                                        "-fx-border-width: 3px;");
+                    }
+                    //Delay for a second
+                    Duration.seconds(1);
                 }
                 index++;
             }
