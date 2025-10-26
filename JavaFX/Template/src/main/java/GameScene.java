@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 
 public class GameScene {
     private Scene scene;
@@ -64,9 +65,17 @@ public class GameScene {
                 if (currentBet != null) {
                     if (currentBet.getChosenNumbers().contains(number)) {
                         currentBet.removeNumber(number);
-                        spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #a5a5a5ff;");
+                        spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #a5a5a5ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
                     } else if (currentBet.addNumber(number)) {
-                        spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #00ff00;");
+                        spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #2bff00ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
                     }
                 }
             });
@@ -155,6 +164,8 @@ public class GameScene {
 		formPNGView.setFitHeight(30);
 		formPNGView.setFitWidth(30);
 		formPNGView.setPreserveRatio(true);
+
+        // ---- ENTER TICKET BUTTON ----
         Button enterTicketButton = new Button("Enter Ticket");
         enterTicketButton.setStyle(
             "-fx-background-color: #F0E68C;" + 
@@ -164,6 +175,30 @@ public class GameScene {
             "-fx-background-radius: 5;" + 
             "-fx-padding: 10 10 10 10;"
         );
+        enterTicketButton.setOnAction(e -> {
+            ArrayList<Integer> draw = game.generateDrawing();
+            ArrayList<Integer> matches = game.getMatches(draw);
+            int winnings = game.calculateWinnings(matches.size());
+        });
+        // ---- Click Effect ----
+		enterTicketButton.setOnMouseReleased(e -> enterTicketButton.setStyle(
+			"-fx-background-color: #F0E68C;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 5;" + 
+            "-fx-padding: 10 10 10 10;"
+		));
+
+		enterTicketButton.setOnMousePressed(e -> enterTicketButton.setStyle(
+			"-fx-background-color: #9e964eff;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 5;" + 
+            "-fx-padding: 10 10 10 10;"
+		));	
+
 
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
 
@@ -220,9 +255,17 @@ public class GameScene {
                 Button spot = (Button) node;
                 int number = Integer.parseInt(spot.getText());
                 if (currentBet.getChosenNumbers().contains(number)) {
-                    spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #00ff00;");
+                    spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #2bff00ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
                 } else {
-                    spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #a5a5a5ff;");
+                    spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #a5a5a5ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
                 }
             }
         }
