@@ -50,49 +50,29 @@ public class Welcome extends Application {
         //oddsItem.setOnAction(e -> showOdds());
 
         MenuItem exitItem = new MenuItem("Exit");
-        //exitItem.setOnAction(e -> window.close());
+        exitItem.setOnAction(e -> primaryStage.close());
 
         menu.getItems().addAll(rulesItem, oddsItem, exitItem);
         menuBar.getMenus().add(menu);
 
-		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
-		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
-
-		ImageView imageView = new ImageView(image);
-		
-	
-
-		//Setting the position of the image 
-		imageView.setX(50); 
-		imageView.setY(25); 
-
-		//setting the fit height and width of the image view 
-		imageView.setFitHeight(455); 
-		imageView.setFitWidth(500); 
-		
-		//Setting the preserve ratio of the image view 
-		imageView.setPreserveRatio(true);  
-
+		// text
 		Label text1 = new Label("ALEX'S WORLD FAMOUS");
 		Label text2 = new Label("KENO");
 		Label text3 = new Label("GAME");
-
 		String smallTextStyle = 
 			"-fx-text-fill: black;" + 
 			"-fx-font-size: 18px;";
-
 		text1.setStyle(smallTextStyle); // "ALEX'S WORLD FAMOUS"
 		text3.setStyle(smallTextStyle); // "GAME"
-
-		
 		text2.setStyle( // For "KENO"
 			"-fx-text-fill: black;" + 
 			"-fx-font-size: 100px;" +       
 			"-fx-font-weight: normal;"
 		);
-
 		VBox textBox = new VBox(1, text1, text2, text3); // With Spacing of 10
 		
+
+
 		Button startButton = new Button("START");
 		// startButton.setOnAction(e -> {
         //     setupGameScene(); // create game scene
@@ -119,6 +99,18 @@ public class Welcome extends Application {
 			"-fx-font-weight: bold;" +
 			"-fx-padding: 10px;"
 		);
+
+		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
+		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
+		ImageView imageView = new ImageView(image);
+		//Setting the position of the image 
+		imageView.setX(50); 
+		imageView.setY(25); 
+		//setting the fit height and width of the image view 
+		imageView.setFitHeight(455); 
+		imageView.setFitWidth(500); 
+		//Setting the preserve ratio of the image view 
+		imageView.setPreserveRatio(true);  
 
 		textBox.setAlignment(Pos.CENTER);
 		buttonBox.setAlignment(Pos.CENTER);
