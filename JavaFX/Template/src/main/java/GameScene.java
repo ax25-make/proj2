@@ -113,6 +113,7 @@ public class GameScene {
                 currentBet = new Bet(spotsSelected, 1);
                 game.setBet(currentBet);
                 System.out.println("Selected: " + spotsBox.getValue());
+                enableBetCard();
                 resetBetCard();
             }
         });
@@ -179,7 +180,6 @@ public class GameScene {
         enterTicketButton.setOnAction(e -> {
             ArrayList<Integer> draw = game.generateDrawing();
             ArrayList<Integer> matches = game.getMatches(draw);
-            
             int winnings = game.calculateWinnings(matches.size());
         });
         // ---- Click Effect ----
@@ -269,6 +269,14 @@ public class GameScene {
                                         "-fx-text-fill: black;" +
                                         "-fx-font-weight: bold;");
                 }
+            }
+        }
+    }
+
+    private void enableBetCard() {
+        for (var node : betCardGrid.getChildren()) {
+            if (node instanceof Button) {
+                ((Button) node).setDisable(false);
             }
         }
     }

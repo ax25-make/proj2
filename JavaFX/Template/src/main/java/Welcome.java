@@ -98,7 +98,7 @@ public class Welcome extends Application {
 		));
 
 		// ---- Click Effect ----
-		startButton.setOnMouseReleased(e -> startButton.setStyle(
+		startButton.setOnMousePressed(e -> startButton.setStyle(
 			"-fx-background-color: #ffdd55;" +   // slightly darker yellow
 			"-fx-text-fill: black;" +           
 			"-fx-font-size: 24px;" +            
@@ -110,7 +110,7 @@ public class Welcome extends Application {
 			"-fx-padding: 10 30 10 30;"
 		));
 
-		startButton.setOnMousePressed(e -> startButton.setStyle(
+		startButton.setOnMouseReleased(e -> startButton.setStyle(
 			"-fx-background-color: #ffffaa;" +  // hover color if mouse still over
 			"-fx-text-fill: black;" +           
 			"-fx-font-size: 24px;" +            

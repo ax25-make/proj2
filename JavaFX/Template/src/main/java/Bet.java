@@ -4,16 +4,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Bet {
+    // Bet configuration
+    // num spots = 1, 4, 8, 10
+    // num drawings = 1-4
+    // chosen numbers = player selected numbers
     private int numSpots;
     private int numDrawings;
     private ArrayList<Integer> chosenNumbers;
 
+    // Constructor
     public Bet(int numSpots, int numDrawings) {
         this.numSpots = numSpots;
         this.numDrawings = numDrawings;
         this.chosenNumbers = new ArrayList<>();
     }
 
+    // Getters
     public int getNumSpots() {
         return numSpots;
     }
@@ -26,6 +32,7 @@ public class Bet {
         return new ArrayList<>(chosenNumbers);
     }
 
+    // player chooses a number
     public boolean addNumber(int number) {
         if (chosenNumbers.contains(number)) {
             return false; // Already selected
@@ -37,10 +44,12 @@ public class Bet {
         return true;
     }
 
+    // player removes a number
     public boolean removeNumber(int number) {
         return chosenNumbers.remove(Integer.valueOf(number));
     }
 
+    // auto pick numbers for player
     public void autoPick() {
         chosenNumbers.clear();
         ArrayList<Integer> pool = new ArrayList<>();
