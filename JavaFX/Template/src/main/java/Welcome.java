@@ -26,8 +26,7 @@ import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
-public class JavaFXTemplate extends Application {
+public class Welcome extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
@@ -44,7 +43,7 @@ public class JavaFXTemplate extends Application {
 		Menu menu = new Menu("Menu");
 
 		MenuItem rulesItem = new MenuItem("Rules");
-        //rulesItem.setOnAction(e -> showRules());
+        rulesItem.setOnAction(e -> Rules.showRules());
 
         MenuItem oddsItem = new MenuItem("Odds");
         //oddsItem.setOnAction(e -> showOdds());
