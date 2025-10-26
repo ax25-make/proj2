@@ -108,15 +108,11 @@ public class GameScene {
         drawCost.setVgap(5);
         drawCost.setAlignment(Pos.CENTER);
 
-        Label showDrawLabel = new Label("Showing draw:");
         Label costLabel = new Label("Cost:");
-        Label showDrawValueLabel = new Label("-");
         Label costValueLabel = new Label("-");
 
-        drawCost.add(showDrawLabel, 1, 0);
-        drawCost.add(costLabel, 2, 0);
-        drawCost.add(showDrawValueLabel, 1, 1);
-        drawCost.add(costValueLabel, 2, 1);
+        drawCost.add(costLabel, 1, 0);
+        drawCost.add(costValueLabel, 1, 1);
 
         // ---- IMAGE ----
 		Image formPNG = new Image("https://static.thenounproject.com/png/25603-200.png"); 
@@ -196,33 +192,6 @@ public class GameScene {
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
         HBox secondRow = new HBox(10, drawCost, ticketBox);
 
-        // ---- Bottom mini menu ----
-        ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
-        spotsBox.setPromptText("1, 4, 8, or 10 Spots");
-        spotsBox.setOnAction(event -> {
-            String selected = spotsBox.getValue();
-            if (selected != null) {
-                spotsSelected = Integer.parseInt(selected);
-                currentBet = new Bet(spotsSelected, numDrawings);
-                game.setBet(currentBet);
-                System.out.println("Selected: " + spotsBox.getValue());
-                enableBetCard();
-                resetBetCard();
-                enterTicketButton.setDisable(false);
-            }
-        });
-        spotsBox.setStyle(
-            "-fx-background-color: white;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 12px;" + 
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 25;" + 
-            "-fx-border-color: #A0A0A0;" + 
-            "-fx-border-width: 1;" +
-            "-fx-border-radius: 25;" +
-            "-fx-padding: 10 20 10 20;"
-        );
-
         // ---- DRAW BUTTON ----
         ComboBox<String> drawBox = new ComboBox<>(FXCollections.observableArrayList("1", "2", "3", "4"));
         drawBox.setPromptText("Draws");
@@ -243,6 +212,46 @@ public class GameScene {
             "-fx-border-radius: 25;" +
             "-fx-padding: 10 20 10 20;"
         );
+
+        // ---- Bottom mini menu ----
+        ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
+        spotsBox.setPromptText("1, 4, 8, or 10 Spots");
+        spotsBox.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 12px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
+        );
+        spotsBox.setOnAction(event -> {
+            String selected = spotsBox.getValue();
+            if (spotsBox.getValue() != null && drawBox.getValue() != null) {
+                spotsSelected = Integer.parseInt(selected);
+                currentBet = new Bet(spotsSelected, numDrawings);
+                game.setBet(currentBet);
+                System.out.println("Selected: " + spotsBox.getValue());
+                enableBetCard();
+                resetBetCard();
+                enterTicketButton.setDisable(false);
+            }
+        });
+
+        drawBox.setOnAction(event -> {
+            String selected = spotsBox.getValue();
+            if (spotsBox.getValue() != null && drawBox.getValue() != null) {
+                spotsSelected = Integer.parseInt(selected);
+                currentBet = new Bet(spotsSelected, numDrawings);
+                game.setBet(currentBet);
+                System.out.println("Selected: " + spotsBox.getValue());
+                enableBetCard();
+                resetBetCard();
+                enterTicketButton.setDisable(false);
+            }
+        });
 
         HBox firstRow = new HBox(10, spotsBox, drawBox);
 
