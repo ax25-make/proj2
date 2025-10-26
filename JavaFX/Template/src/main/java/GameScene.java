@@ -104,48 +104,6 @@ public class GameScene {
             "-fx-padding: 10px 30px 10px 30px;"
         );
 
-        // ---- Bottom mini menu ----
-        ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
-        spotsBox.setPromptText("1, 4, 8, or 10 Spots");
-        spotsBox.setOnAction(event -> {
-            String selected = spotsBox.getValue();
-            if (selected != null) {
-                spotsSelected = Integer.parseInt(selected);
-                currentBet = new Bet(spotsSelected, 1);
-                game.setBet(currentBet);
-                System.out.println("Selected: " + spotsBox.getValue());
-                enableBetCard();
-                resetBetCard();
-            }
-        });
-
-        spotsBox.setStyle(
-            "-fx-background-color: white;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 12px;" + 
-            "-fx-font-weight: bold;" +
-            "-fx-background-radius: 25;" + 
-            "-fx-border-color: #A0A0A0;" + 
-            "-fx-border-width: 1;" +
-            "-fx-border-radius: 25;" +
-            "-fx-padding: 10 20 10 20;"
-        );
-
-        Button drawButton = new Button("Draw");
-        drawButton.setStyle(
-            "-fx-background-color: white;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 14px;" + 
-            "-fx-font-weight: normal;" +
-            "-fx-background-radius: 20;" +
-            "-fx-border-color: #C0C0C0;" + 
-            "-fx-border-width: 1;" +
-            "-fx-border-radius: 20;" +
-            "-fx-padding: 5 15 5 15;"
-        );
-
-        HBox firstRow = new HBox(10, spotsBox, drawButton);
-
         drawCost = new GridPane();
         drawCost.setHgap(5);
         drawCost.setVgap(5);
@@ -170,6 +128,7 @@ public class GameScene {
 
         // ---- ENTER TICKET BUTTON ----
         Button enterTicketButton = new Button("Enter Ticket");
+        enterTicketButton.setDisable(true);
         enterTicketButton.setStyle(
             "-fx-background-color: #F0E68C;" + 
             "-fx-text-fill: black;" + 
@@ -213,6 +172,7 @@ public class GameScene {
             }
 
             int winnings = game.calculateWinnings(matches.size());
+            System.out.println("Winnings:" + winnings);
         });
         // ---- Click Effect ----
 		enterTicketButton.setOnMouseReleased(e -> enterTicketButton.setStyle(
@@ -237,6 +197,49 @@ public class GameScene {
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
 
         HBox secondRow = new HBox(10, drawCost, ticketBox);
+
+        // ---- Bottom mini menu ----
+        ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
+        spotsBox.setPromptText("1, 4, 8, or 10 Spots");
+        spotsBox.setOnAction(event -> {
+            String selected = spotsBox.getValue();
+            if (selected != null) {
+                spotsSelected = Integer.parseInt(selected);
+                currentBet = new Bet(spotsSelected, 1);
+                game.setBet(currentBet);
+                System.out.println("Selected: " + spotsBox.getValue());
+                enableBetCard();
+                resetBetCard();
+                enterTicketButton.setDisable(false);
+            }
+        });
+
+        spotsBox.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 12px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
+        );
+
+        Button drawButton = new Button("Draw");
+        drawButton.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 14px;" + 
+            "-fx-font-weight: normal;" +
+            "-fx-background-radius: 20;" +
+            "-fx-border-color: #C0C0C0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 20;" +
+            "-fx-padding: 5 15 5 15;"
+        );
+
+        HBox firstRow = new HBox(10, spotsBox, drawButton);
 
         // Button watchDrawLabel = new Button("Watch Drawings");
         // watchDrawLabel.setStyle(
