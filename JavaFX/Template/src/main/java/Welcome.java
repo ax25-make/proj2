@@ -122,6 +122,7 @@ public class Welcome extends Application {
 			"-fx-padding: 10 30 10 30;"
 		));	
 
+		// ---- START TEXT ----
 		Label startText = new Label("LOOSE ALL YOUR MONEY");
 		startText.setStyle(
 			"-fx-text-fill: black;" +
