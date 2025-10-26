@@ -35,7 +35,7 @@ public class JavaFXTemplate extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		primaryStage.setTitle("Welcome to JavaFX");
+		primaryStage.setTitle("Start Page");
 
 		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
 		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
@@ -53,10 +53,30 @@ public class JavaFXTemplate extends Application {
 		
 		//Setting the preserve ratio of the image view 
 		imageView.setPreserveRatio(true);  
+
+		Label text1 = new Label("ALEX'S WORLD FAMOUS");
+		Label text2 = new Label("KENO");
+		Label text3 = new Label("GAME");
+
+		String smallTextStyle = 
+			"-fx-text-fill: black;" + 
+			"-fx-font-size: 18px;";
+
+		text1.setStyle(smallTextStyle); // "ALEX'S WORLD FAMOUS"
+		text3.setStyle(smallTextStyle); // "GAME"
+
+		
+		text2.setStyle( // For "KENO"
+			"-fx-text-fill: black;" + 
+			"-fx-font-size: 100px;" +       
+			"-fx-font-weight: normal;"
+		);
+
+		VBox textBox = new VBox(1, text1, text2, text3); // With Spacing of 10
 		
 		Button startButton = new Button("START");
-		Label text2 = new Label("LOOSE ALL YOUR MONEY");
-		VBox buttonBox = new VBox(10, text2, startButton); // With Spacing of 10
+		Label startText = new Label("LOOSE ALL YOUR MONEY");
+		VBox buttonBox = new VBox(10, startText, startButton); // With Spacing of 10
 
 		startButton.setStyle(
 			"-fx-background-color: white;" +   
@@ -70,14 +90,16 @@ public class JavaFXTemplate extends Application {
 			"-fx-padding: 10 30 10 30;"
 		);
 
-		text2.setStyle(
+		startText.setStyle(
 			"-fx-text-fill: black;" +
 			"-fx-font-size: 15px;" +
 			"-fx-font-weight: bold;" +
 			"-fx-padding: 10px;"
 		);
 
+		textBox.setAlignment(Pos.CENTER);
 		buttonBox.setAlignment(Pos.CENTER);
+		textBox.setPadding(new Insets(0,0,10,0));
 		buttonBox.setPadding(new Insets(0,0,50,0));
 
 
@@ -97,6 +119,7 @@ public class JavaFXTemplate extends Application {
 		BorderPane borderPane = new BorderPane();
 		borderPane.setStyle("-fx-background-color: #ffffffff;"); 
 		borderPane.setPadding(new Insets(10));
+		borderPane.setTop(textBox);
 		borderPane.setCenter(imageView);
 		borderPane.setBottom(buttonBox);
 		// borderPane.setTop(text2);
