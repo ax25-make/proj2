@@ -1,12 +1,4 @@
-import java.io.FileInputStream;
-
-import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.SequentialTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,16 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Welcome extends Application {
 
@@ -40,16 +27,16 @@ public class Welcome extends Application {
 		MenuBar menuBar = new MenuBar();
 		Menu menu = new Menu("Menu");
 
-		MenuItem rulesItem = new MenuItem("Rules");
-		rulesItem.setOnAction(e -> Rules.showRules());
+		MenuItem rules = new MenuItem("Rules");
+		rules.setOnAction(e -> Rules.showRules());
 
-		MenuItem oddsItem = new MenuItem("Odds");
-		oddsItem.setOnAction(e -> Odds.showOdds());
+		MenuItem odds = new MenuItem("Odds");
+		odds.setOnAction(e -> Odds.showOdds());
 
-		MenuItem exitItem = new MenuItem("Exit");
-		exitItem.setOnAction(e -> primaryStage.close());
+		MenuItem exit = new MenuItem("Exit");
+		exit.setOnAction(e -> primaryStage.close());
 
-		menu.getItems().addAll(rulesItem, oddsItem, exitItem);
+		menu.getItems().addAll(rules, odds, exit);
 		menuBar.getMenus().add(menu);
 
 		// ---- TEXT ----
@@ -84,6 +71,56 @@ public class Welcome extends Application {
 			"-fx-border-radius: 50;" +
 			"-fx-padding: 10 30 10 30;"
 		);
+		
+		// ---- Hover Effect ----
+		startButton.setOnMouseEntered(e -> startButton.setStyle(
+			"-fx-background-color: #ffffaa;" +   // lighter yellow
+			"-fx-text-fill: black;" +           
+			"-fx-font-size: 24px;" +            
+			"-fx-font-weight: bold;" +          
+			"-fx-background-radius: 50;" +      
+			"-fx-border-color: #bbbbbb;" +      
+			"-fx-border-width: 2;" +            
+			"-fx-border-radius: 50;" +
+			"-fx-padding: 10 30 10 30;"
+		));
+
+		startButton.setOnMouseExited(e -> startButton.setStyle(
+			"-fx-background-color: white;" +   
+			"-fx-text-fill: black;" +           
+			"-fx-font-size: 24px;" +            
+			"-fx-font-weight: bold;" +          
+			"-fx-background-radius: 50;" +      
+			"-fx-border-color: #bbbbbb;" +      
+			"-fx-border-width: 2;" +            
+			"-fx-border-radius: 50;" +
+			"-fx-padding: 10 30 10 30;"
+		));
+
+		// ---- Click Effect ----
+		startButton.setOnMousePressed(e -> startButton.setStyle(
+			"-fx-background-color: #ffdd55;" +   // slightly darker yellow
+			"-fx-text-fill: black;" +           
+			"-fx-font-size: 24px;" +            
+			"-fx-font-weight: bold;" +          
+			"-fx-background-radius: 50;" +      
+			"-fx-border-color: #bbbbbb;" +      
+			"-fx-border-width: 2;" +            
+			"-fx-border-radius: 50;" +
+			"-fx-padding: 10 30 10 30;"
+		));
+
+		startButton.setOnMouseReleased(e -> startButton.setStyle(
+			"-fx-background-color: #ffffaa;" +  // hover color if mouse still over
+			"-fx-text-fill: black;" +           
+			"-fx-font-size: 24px;" +            
+			"-fx-font-weight: bold;" +          
+			"-fx-background-radius: 50;" +      
+			"-fx-border-color: #bbbbbb;" +      
+			"-fx-border-width: 2;" +            
+			"-fx-border-radius: 50;" +
+			"-fx-padding: 10 30 10 30;"
+		));	
 
 		Label startText = new Label("LOOSE ALL YOUR MONEY");
 		startText.setStyle(
@@ -109,6 +146,11 @@ public class Welcome extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		// ---- BUTTON ACTION ----
+        startButton.setOnAction(e -> {
+            GameScene gameScene = new GameScene(primaryStage);
+            primaryStage.setScene(gameScene.getScene());
+        });
 	}
 
 }
