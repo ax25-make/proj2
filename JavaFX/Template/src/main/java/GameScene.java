@@ -104,6 +104,7 @@ public class GameScene {
             "-fx-padding: 10px 30px 10px 30px;"
         );
 
+        // ---- DRAW & COST GRID ----
         drawCost = new GridPane();
         drawCost.setHgap(5);
         drawCost.setVgap(5);
@@ -171,10 +172,11 @@ public class GameScene {
                 index++;
             }
 
+            // Calculate winnings
             int winnings = game.calculateWinnings(matches.size());
             System.out.println("Winnings:" + winnings);
         });
-        // ---- Click Effect ----
+        // ---- Click Effect ---- ^
 		enterTicketButton.setOnMouseReleased(e -> enterTicketButton.setStyle(
 			"-fx-background-color: #F0E68C;" + 
             "-fx-text-fill: black;" + 
@@ -213,7 +215,6 @@ public class GameScene {
                 enterTicketButton.setDisable(false);
             }
         });
-
         spotsBox.setStyle(
             "-fx-background-color: white;" + 
             "-fx-text-fill: black;" + 
@@ -226,6 +227,7 @@ public class GameScene {
             "-fx-padding: 10 20 10 20;"
         );
 
+        // ---- DRAW BUTTON ----
         Button drawButton = new Button("Draw");
         drawButton.setStyle(
             "-fx-background-color: white;" + 
