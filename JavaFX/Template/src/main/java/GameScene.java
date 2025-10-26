@@ -53,18 +53,36 @@ public class GameScene {
             spot.setDisable(true); // enable later after spot selection
             //spot.setOnAction(e -> selectNumber(spot));
             spot.setMinSize(40, 40);
+            spot.setStyle(
+                "-fx-background-radius: 50;" + 
+                "-fx-border-radius: 50;" +  
+                "-fx-background-color: #a5a5a5ff;" +
+                "-fx-text-fill: black;" +
+                "-fx-font-weight: bold;"
+            );
+
             betCardGrid.add(spot, (i - 1) % 10, (i - 1) / 10);
         }
 
-        VBox layout = new VBox(30, betCardGrid);
+        Label selectSpotsLabel = new Label("Select Your Spots");
+
+        selectSpotsLabel.setStyle(
+            "-fx-background-color: #6A6A80;" + 
+            "-fx-text-fill: white;" +          
+            "-fx-font-size: 20px;" +           
+            "-fx-font-weight: bold;" +         
+            "-fx-background-radius: 20;" +     
+            "-fx-padding: 10px 30px 10px 30px;"
+        );
+
+        VBox layout = new VBox(10, selectSpotsLabel, betCardGrid);
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setStyle(
-            "-fx-padding: 0 0 100 0;"
+            "-fx-padding: 30 0 0 0;"
         );
-        // layout.setSpacing(15);
 
         BorderPane borderPane = new BorderPane();
-		borderPane.setStyle("-fx-background-color: #b3b3b3ff;"); 
+		borderPane.setStyle("-fx-background-color: #ecececff;"); 
 		borderPane.setPadding(new Insets(10));
         borderPane.setTop(menuBar);
         borderPane.setCenter(layout);
