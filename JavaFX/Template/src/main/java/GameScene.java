@@ -30,7 +30,7 @@ public class GameScene {
     public GameScene(Stage stage) {
         this.stage = stage;
         stage.setTitle("Keno Game");
-        KenoGame game = new KenoGame();
+        game = new KenoGame();
 
         // ---- MENU ----
         MenuBar menuBar = new MenuBar();
@@ -61,6 +61,8 @@ public class GameScene {
             Button spot = new Button(String.valueOf(i));
             final int number = i;
 
+            spot.setDisable(true);
+
             spot.setOnAction(e -> {
                 if (currentBet != null) {
                     if (currentBet.getChosenNumbers().contains(number)) {
@@ -88,12 +90,10 @@ public class GameScene {
                 "-fx-text-fill: black;" +
                 "-fx-font-weight: bold;"
             );
-
             betCardGrid.add(spot, (i - 1) % 10, (i - 1) / 10);
         }
 
         Label selectSpotsLabel = new Label("Select Your Spots");
-
         selectSpotsLabel.setStyle(
             "-fx-background-color: #6A6A80;" + 
             "-fx-text-fill: white;" +          
@@ -106,14 +106,15 @@ public class GameScene {
         // ---- Bottom mini menu ----
         ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
         spotsBox.setPromptText("1, 4, 8, or 10 Spots");
-
         spotsBox.setOnAction(event -> {
             String selected = spotsBox.getValue();
-            spotsSelected = Integer.parseInt(selected);
-            currentBet = new Bet(spotsSelected, 1);
-            game.setBet(currentBet);
-            System.out.println("Selected: " + spotsBox.getValue());
-            resetBetCard();
+            if (selected == null) {
+                spotsSelected = Integer.parseInt(selected);
+                currentBet = new Bet(spotsSelected, 1);
+                game.setBet(currentBet);
+                System.out.println("Selected: " + spotsBox.getValue());
+                resetBetCard();
+            }
         });
 
         spotsBox.setStyle(
