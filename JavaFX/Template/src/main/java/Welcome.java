@@ -122,7 +122,7 @@ public class Welcome extends Application {
 			"-fx-padding: 10 30 10 30;"
 		));	
 
-		Label startText = new Label("LOOSE ALL YOUR MONEY");
+		Label startText = new Label("LOSE ALL YOUR MONEY");
 		startText.setStyle(
 			"-fx-text-fill: black;" +
 			"-fx-font-size: 15px;" +
