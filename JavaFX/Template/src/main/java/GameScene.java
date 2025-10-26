@@ -1,13 +1,18 @@
-import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class GameScene {
     private Scene scene;
@@ -78,14 +83,33 @@ public class GameScene {
             "-fx-padding: 10px 30px 10px 30px;"
         );
 
-        VBox layout = new VBox(10, selectSpotsLabel, betCardGrid);
-        layout.setAlignment(Pos.TOP_CENTER);
-        layout.setStyle(
-            "-fx-padding: 30 0 0 0;"
-        );
+        // ---- Bottom mini menu ----
 
         Button spotsButton = new Button("1, 4, 8, or 10 Spots");
+        spotsButton.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
+        );
+
         Button multiButton = new Button("Multiplier");
+        multiButton.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 14px;" + 
+            "-fx-font-weight: normal;" +
+            "-fx-background-radius: 20;" +
+            "-fx-border-color: #C0C0C0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 20;" +
+            "-fx-padding: 5 15 5 15;"
+        );
 
         HBox firstRow = new HBox(10, spotsButton, multiButton);
 
@@ -111,30 +135,60 @@ public class GameScene {
 		formPNGView.setFitWidth(30);
 		formPNGView.setPreserveRatio(true);
         Button enterTicketButton = new Button("Enter Ticket");
-        //Styling for button?
+        enterTicketButton.setStyle(
+            "-fx-background-color: #F0E68C;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 5;" + 
+            "-fx-padding: 10 10 10 10;"
+        );
 
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
-        // ticketBox.setAlignment(Pos.CENTER_LEFT);
-        // ticketBox.setPadding(new Insets(10));
 
         HBox secondRow = new HBox(10, drawCost, ticketBox);
 
         Button watchDrawLabel = new Button("Watch Drawings");
+        watchDrawLabel.setStyle(
+            "-fx-background-color: #D3D3D3;" +
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 14px;" +
+            "-fx-font-weight: normal;" +
+            "-fx-background-radius: 5;" +
+            "-fx-padding: 5 10 5 10;"
+        );
         Button skipButton = new Button("Skip to Results");
+        skipButton.setStyle(
+            "-fx-background-color: transparent;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 14px;" +
+            "-fx-font-weight: normal;" +
+            "-fx-underline: false;"
+        );
         HBox thirdRow = new HBox(10, watchDrawLabel, skipButton);
 
+        firstRow.setAlignment(Pos.CENTER);
+        secondRow.setAlignment(Pos.CENTER);
+        thirdRow.setAlignment(Pos.CENTER);
+
         VBox miniMenu = new VBox(10, firstRow, secondRow, thirdRow);
+        miniMenu.setAlignment(Pos.TOP_CENTER);
         miniMenu.setStyle(
-            "-fx-padding: 0 0 50 0;"
+            "-fx-padding: 20 0 0 0;"
         );
-        miniMenu.setAlignment(Pos.CENTER);
+
+        VBox layout = new VBox(10, selectSpotsLabel, betCardGrid, miniMenu);
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.setStyle(
+            "-fx-padding: 30 0 0 0;"
+        );
 
         BorderPane borderPane = new BorderPane();
 		borderPane.setStyle("-fx-background-color: #ecececff;"); 
 		borderPane.setPadding(new Insets(10));
         borderPane.setTop(menuBar);
         borderPane.setCenter(layout);
-        borderPane.setBottom(miniMenu);
+        
 
         scene = new Scene(borderPane, 700,900);
     }
