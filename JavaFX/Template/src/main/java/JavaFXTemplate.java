@@ -59,16 +59,9 @@ public class JavaFXTemplate extends Application {
 		Label text1 = new Label("ALEX'S WORLD FAMOUS");
 		Label text2 = new Label("KENO");
 		Label text3 = new Label("GAME");
-		String smallTextStyle = 
-			"-fx-text-fill: black;" + 
-			"-fx-font-size: 18px;";
-		text1.setStyle(smallTextStyle); // "ALEX'S WORLD FAMOUS"
-		text3.setStyle(smallTextStyle); // "GAME"
-		text2.setStyle( // For "KENO"
-			"-fx-text-fill: black;" + 
-			"-fx-font-size: 100px;" +       
-			"-fx-font-weight: normal;"
-		);
+		text1.setStyle("-fx-text-fill: black; -fx-font-size: 18px;"); // "ALEX'S WORLD FAMOUS"
+		text3.setStyle("-fx-text-fill: black; -fx-font-size: 18px;"); // "GAME"
+		text2.setStyle("-fx-text-fill: black; -fx-font-size: 100px;");
 		VBox textBox = new VBox(1, text1, text2, text3); // With Spacing of 10
 		
 
