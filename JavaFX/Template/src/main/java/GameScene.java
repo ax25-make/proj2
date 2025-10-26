@@ -257,11 +257,12 @@ public class GameScene {
         });
 
         //If selected numbers don't match up with drawings number, then don't enable "enter ticket"
+        int drawings = 0;
         if(drawBox.getValue() != null){
-            int drawings = Integer.parseInt(drawBox.getValue());
+            drawings = Integer.parseInt(drawBox.getValue());
         }
         
-        int drawings;
+        
         if(selectedSpots == drawings){
             enterTicketButton.setDisable(true);
         }
