@@ -214,6 +214,20 @@ public class GameScene {
         scene = new Scene(borderPane, 700,900);
     }
 
+    private void resetBetCard() {
+        for (var node : betCardGrid.getChildren()) {
+            if (node instanceof Button) {
+                Button spot = (Button) node;
+                int number = Integer.parseInt(spot.getText());
+                if (currentBet.getChosenNumbers().contains(number)) {
+                    spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #00ff00;");
+                } else {
+                    spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #a5a5a5ff;");
+                }
+            }
+        }
+    }
+
     public Scene getScene() {
         return scene;
     }
