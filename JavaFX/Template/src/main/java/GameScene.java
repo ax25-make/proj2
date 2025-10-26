@@ -3,6 +3,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -11,6 +13,7 @@ public class GameScene {
     private Scene scene;
     //private KenoGame game;
     private GridPane betCardGrid;
+    private GridPane drawCost;
     private int spotsSelected;
     private int drawingsSelected;
     private Label infoLabel;
@@ -81,11 +84,57 @@ public class GameScene {
             "-fx-padding: 30 0 0 0;"
         );
 
+        Button spotsButton = new Button("1, 4, 8, or 10 Spots");
+        Button multiButton = new Button("Multiplier");
+
+        HBox firstRow = new HBox(10, spotsButton, multiButton);
+
+        drawCost = new GridPane();
+        drawCost.setHgap(5);
+        drawCost.setVgap(5);
+        drawCost.setAlignment(Pos.CENTER);
+
+        Label showDrawLabel = new Label("Showing draw:");
+        Label costLabel = new Label("Cost:");
+        Label showDrawValueLabel = new Label("-");
+        Label costValueLabel = new Label("-");
+
+        drawCost.add(showDrawLabel, 1, 0);
+        drawCost.add(costLabel, 2, 0);
+        drawCost.add(showDrawValueLabel, 1, 1);
+        drawCost.add(costValueLabel, 2, 1);
+
+        // ---- IMAGE ----
+		Image formPNG = new Image("https://static.thenounproject.com/png/25603-200.png"); 
+		ImageView formPNGView = new ImageView(formPNG);
+		formPNGView.setFitHeight(30);
+		formPNGView.setFitWidth(30);
+		formPNGView.setPreserveRatio(true);
+        Button enterTicketButton = new Button("Enter Ticket");
+        //Styling for button?
+
+        HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
+        // ticketBox.setAlignment(Pos.CENTER_LEFT);
+        // ticketBox.setPadding(new Insets(10));
+
+        HBox secondRow = new HBox(10, drawCost, ticketBox);
+
+        Button watchDrawLabel = new Button("Watch Drawings");
+        Button skipButton = new Button("Skip to Results");
+        HBox thirdRow = new HBox(10, watchDrawLabel, skipButton);
+
+        VBox miniMenu = new VBox(10, firstRow, secondRow, thirdRow);
+        miniMenu.setStyle(
+            "-fx-padding: 0 0 50 0;"
+        );
+        miniMenu.setAlignment(Pos.CENTER);
+
         BorderPane borderPane = new BorderPane();
 		borderPane.setStyle("-fx-background-color: #ecececff;"); 
 		borderPane.setPadding(new Insets(10));
         borderPane.setTop(menuBar);
         borderPane.setCenter(layout);
+        borderPane.setBottom(miniMenu);
 
         scene = new Scene(borderPane, 700,900);
     }
