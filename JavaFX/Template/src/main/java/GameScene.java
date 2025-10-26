@@ -108,7 +108,7 @@ public class GameScene {
         spotsBox.setPromptText("1, 4, 8, or 10 Spots");
         spotsBox.setOnAction(event -> {
             String selected = spotsBox.getValue();
-            if (selected == null) {
+            if (selected != null) {
                 spotsSelected = Integer.parseInt(selected);
                 currentBet = new Bet(spotsSelected, 1);
                 game.setBet(currentBet);
@@ -276,7 +276,7 @@ public class GameScene {
     private void enableBetCard() {
         for (var node : betCardGrid.getChildren()) {
             if (node instanceof Button) {
-                ((Button) node).setDisable(false);
+                node.setDisable(false);
             }
         }
     }
