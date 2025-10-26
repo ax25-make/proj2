@@ -25,11 +25,9 @@ public class GameScene {
     private GridPane drawCost;
     private Bet currentBet;
     private int spotsSelected;
-    private Stage stage;
     private int numDrawings = 1;
 
     public GameScene(Stage stage) {
-        this.stage = stage;
         stage.setTitle("Keno Game");
         game = new KenoGame();
 
@@ -185,7 +183,6 @@ public class GameScene {
             "-fx-background-radius: 5;" + 
             "-fx-padding: 10 10 10 10;"
 		));
-
 		enterTicketButton.setOnMousePressed(e -> enterTicketButton.setStyle(
 			"-fx-background-color: #9e964eff;" + 
             "-fx-text-fill: black;" + 
