@@ -24,7 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class JavaFXTemplate extends Application {
+public class Welcome extends Application {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
