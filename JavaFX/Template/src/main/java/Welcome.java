@@ -12,6 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -24,10 +27,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class JavaFXTemplate extends Application {
-
+public class Welcome extends Application {
+	Stage welcomeScene, gameScene;
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		launch(args);
 	}
 
@@ -37,11 +39,28 @@ public class JavaFXTemplate extends Application {
 		// TODO Auto-generated method stub
 		primaryStage.setTitle("Start Page");
 
+		// menu
+		MenuBar menuBar = new MenuBar();
+		Menu menu = new Menu("Menu");
+
+		MenuItem rulesItem = new MenuItem("Rules");
+        //rulesItem.setOnAction(e -> showRules());
+
+        MenuItem oddsItem = new MenuItem("Odds");
+        //oddsItem.setOnAction(e -> showOdds());
+
+        MenuItem exitItem = new MenuItem("Exit");
+        //exitItem.setOnAction(e -> window.close());
+
+        menu.getItems().addAll(rulesItem, oddsItem, exitItem);
+        menuBar.getMenus().add(menu);
+
 		// FileInputStream inputstream = new FileInputStream("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
 		Image image = new Image("https://img.freepik.com/premium-photo/red-board-with-red-white-game-middle-it_1354347-1648.jpg?w=360"); 
 
 		ImageView imageView = new ImageView(image);
 		
+	
 
 		//Setting the position of the image 
 		imageView.setX(50); 
@@ -75,6 +94,10 @@ public class JavaFXTemplate extends Application {
 		VBox textBox = new VBox(1, text1, text2, text3); // With Spacing of 10
 		
 		Button startButton = new Button("START");
+		// startButton.setOnAction(e -> {
+        //     setupGameScene(); // create game scene
+        //     window.setScene(gameScene);
+        // });
 		Label startText = new Label("LOOSE ALL YOUR MONEY");
 		VBox buttonBox = new VBox(10, startText, startButton); // With Spacing of 10
 
@@ -128,6 +151,8 @@ public class JavaFXTemplate extends Application {
 		// BorderPane.setMargin(buttonBox, new Insets(50));
         // BorderPane.setMargin(text2, new Insets(50));
 				
+		borderPane.setTop(menuBar);
+
 		Scene scene = new Scene(borderPane, 700,700);
 		primaryStage.setScene(scene);
 		primaryStage.show();
