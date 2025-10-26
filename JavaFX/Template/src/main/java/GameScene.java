@@ -29,7 +29,7 @@ public class GameScene {
     public GameScene(Stage stage) {
         this.stage = stage;
         stage.setTitle("Keno Game");
-        //game = new KenoGame();
+        KenoGame game = new KenoGame();
 
         // ---- MENU ----
         MenuBar menuBar = new MenuBar();
