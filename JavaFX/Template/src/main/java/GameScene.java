@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,8 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import javafx.util.Duration;
 
 public class GameScene {
     private Scene scene;
@@ -26,6 +26,8 @@ public class GameScene {
     private Bet currentBet;
     private int spotsSelected;
     private Stage stage;
+
+    
 
 
     public GameScene(Stage stage) {
@@ -126,6 +128,13 @@ public class GameScene {
 		formPNGView.setFitWidth(30);
 		formPNGView.setPreserveRatio(true);
 
+        // ---- DOG IMAGE ----
+        Image dogPNG = new Image("https://i.redd.it/elgmhuor118f1.png"); 
+        ImageView dogPNGView = new ImageView(dogPNG);
+        dogPNGView.setFitHeight(30);
+        dogPNGView.setFitWidth(30);
+        dogPNGView.setPreserveRatio(true);
+
         // ---- ENTER TICKET BUTTON ----
         Button enterTicketButton = new Button("Enter Ticket");
         enterTicketButton.setDisable(true);
@@ -165,8 +174,6 @@ public class GameScene {
                                         "-fx-border-color: #FFD700;" + 
                                         "-fx-border-width: 3px;");
                     }
-                    //Delay for a second
-                    Duration.seconds(1);
                 }
                 index++;
             }
@@ -174,6 +181,7 @@ public class GameScene {
             int winnings = game.calculateWinnings(matches.size());
             System.out.println("Winnings:" + winnings);
         });
+        
         // ---- Click Effect ----
 		enterTicketButton.setOnMouseReleased(e -> enterTicketButton.setStyle(
 			"-fx-background-color: #F0E68C;" + 
@@ -250,22 +258,22 @@ public class GameScene {
         //     "-fx-background-radius: 5;" +
         //     "-fx-padding: 5 10 5 10;"
         // );
-        Button skipButton = new Button("Skip to Results");
-        skipButton.setStyle(
-            "-fx-background-color: #D3D3D3;" +
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: normal;" +
-            "-fx-background-radius: 5;" +
-            "-fx-padding: 5 10 5 10;"
-        );
-        HBox thirdRow = new HBox(10, skipButton);
+        // Button skipButton = new Button("Skip to Results");
+        // skipButton.setStyle(
+        //     "-fx-background-color: #D3D3D3;" +
+        //     "-fx-text-fill: black;" + 
+        //     "-fx-font-size: 14px;" +
+        //     "-fx-font-weight: normal;" +
+        //     "-fx-background-radius: 5;" +
+        //     "-fx-padding: 5 10 5 10;"
+        // );
+        // HBox thirdRow = new HBox(10, skipButton);
 
         firstRow.setAlignment(Pos.CENTER);
         secondRow.setAlignment(Pos.CENTER);
-        thirdRow.setAlignment(Pos.CENTER);
+        // thirdRow.setAlignment(Pos.CENTER);
 
-        VBox miniMenu = new VBox(10, firstRow, secondRow, thirdRow);
+        VBox miniMenu = new VBox(10, firstRow, secondRow);
         miniMenu.setAlignment(Pos.TOP_CENTER);
         miniMenu.setStyle(
             "-fx-padding: 20 0 0 0;"
