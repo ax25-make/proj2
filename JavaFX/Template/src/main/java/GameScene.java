@@ -1,7 +1,9 @@
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -84,12 +86,16 @@ public class GameScene {
         );
 
         // ---- Bottom mini menu ----
+        ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
+        spotsBox.setPromptText("1, 4, 8, or 10 Spots");
 
-        Button spotsButton = new Button("1, 4, 8, or 10 Spots");
-        spotsButton.setStyle(
+        spotsBox.setOnAction(event -> {
+            System.out.println("Selected: " + spotsBox.getValue());
+        });
+        spotsBox.setStyle(
             "-fx-background-color: white;" + 
             "-fx-text-fill: black;" + 
-            "-fx-font-size: 16px;" + 
+            "-fx-font-size: 12px;" + 
             "-fx-font-weight: bold;" +
             "-fx-background-radius: 25;" + 
             "-fx-border-color: #A0A0A0;" + 
@@ -111,7 +117,7 @@ public class GameScene {
             "-fx-padding: 5 15 5 15;"
         );
 
-        HBox firstRow = new HBox(10, spotsButton, multiButton);
+        HBox firstRow = new HBox(10, spotsBox, multiButton);
 
         drawCost = new GridPane();
         drawCost.setHgap(5);
