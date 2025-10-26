@@ -22,10 +22,11 @@ public class GameScene {
     private Scene scene;
     private KenoGame game;
     private GridPane betCardGrid;
-    private GridPane drawCost;
+    private GridPane costGrid;
     private Bet currentBet;
     private int spotsSelected;
     private int numDrawings = 1;
+    private int selectedSpots = 0;
 
     public GameScene(Stage stage) {
         stage.setTitle("Keno Game");
@@ -71,12 +72,14 @@ public class GameScene {
                                         "-fx-background-color: #a5a5a5ff;" +
                                         "-fx-text-fill: black;" +
                                         "-fx-font-weight: bold;");
+                        selectedSpots--;
                     } else if (currentBet.addNumber(number)) {
                         spot.setStyle("-fx-background-radius: 50;" + 
                                         "-fx-border-radius: 50;" +  
                                         "-fx-background-color: #2bff00ff;" +
                                         "-fx-text-fill: black;" +
                                         "-fx-font-weight: bold;");
+                        selectedSpots++;
                     }
                 }
             });
@@ -102,17 +105,17 @@ public class GameScene {
             "-fx-padding: 10px 30px 10px 30px;"
         );
 
-        // ---- DRAW & COST GRID ----
-        drawCost = new GridPane();
-        drawCost.setHgap(5);
-        drawCost.setVgap(5);
-        drawCost.setAlignment(Pos.CENTER);
+        // ---- COST GRID ----
+        costGrid = new GridPane();
+        costGrid.setHgap(5);
+        costGrid.setVgap(5);
+        costGrid.setAlignment(Pos.CENTER);
 
         Label costLabel = new Label("Cost:");
         Label costValueLabel = new Label("-");
 
-        drawCost.add(costLabel, 1, 0);
-        drawCost.add(costValueLabel, 1, 1);
+        costGrid.add(costLabel, 1, 0);
+        costGrid.add(costValueLabel, 1, 1);
 
         // ---- IMAGE ----
 		Image formPNG = new Image("https://static.thenounproject.com/png/25603-200.png"); 
@@ -190,7 +193,7 @@ public class GameScene {
 
 
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
-        HBox secondRow = new HBox(10, drawCost, ticketBox);
+        HBox secondRow = new HBox(10, costGrid, ticketBox);
 
         // ---- DRAW BUTTON ----
         ComboBox<String> drawBox = new ComboBox<>(FXCollections.observableArrayList("1", "2", "3", "4"));
@@ -252,6 +255,19 @@ public class GameScene {
                 enterTicketButton.setDisable(false);
             }
         });
+
+        //If selected numbers don't match up with drawings number, then don't enable "enter ticket"
+        if(drawBox.getValue() != null){
+            int drawings = Integer.parseInt(drawBox.getValue());
+        }
+        
+        int drawings;
+        if(selectedSpots == drawings){
+            enterTicketButton.setDisable(true);
+        }
+        else{
+            enterTicketButton.setDisable(false);
+        }
 
         HBox firstRow = new HBox(10, spotsBox, drawBox);
 
