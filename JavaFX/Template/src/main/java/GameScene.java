@@ -128,8 +128,8 @@ public class GameScene {
             "-fx-padding: 10 20 10 20;"
         );
 
-        Button multiButton = new Button("Multiplier");
-        multiButton.setStyle(
+        Button drawButton = new Button("Draw");
+        drawButton.setStyle(
             "-fx-background-color: white;" + 
             "-fx-text-fill: black;" + 
             "-fx-font-size: 14px;" + 
@@ -141,7 +141,7 @@ public class GameScene {
             "-fx-padding: 5 15 5 15;"
         );
 
-        HBox firstRow = new HBox(10, spotsBox, multiButton);
+        HBox firstRow = new HBox(10, spotsBox, drawButton);
 
         drawCost = new GridPane();
         drawCost.setHgap(5);
@@ -178,6 +178,7 @@ public class GameScene {
         enterTicketButton.setOnAction(e -> {
             ArrayList<Integer> draw = game.generateDrawing();
             ArrayList<Integer> matches = game.getMatches(draw);
+            
             int winnings = game.calculateWinnings(matches.size());
         });
         // ---- Click Effect ----
