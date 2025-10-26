@@ -99,8 +99,14 @@ public class GameScene {
         spotsBox.setPromptText("1, 4, 8, or 10 Spots");
 
         spotsBox.setOnAction(event -> {
+            String selected = spotsBox.getValue();
+            spotsSelected = Integer.parseInt(selected);
+            currentBet = new Bet(spotsSelected, 1);
+            game.setBet(currentBet);
             System.out.println("Selected: " + spotsBox.getValue());
+            resetBetCard();
         });
+
         spotsBox.setStyle(
             "-fx-background-color: white;" + 
             "-fx-text-fill: black;" + 
