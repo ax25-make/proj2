@@ -180,6 +180,24 @@ public class GameScene {
         enterTicketButton.setOnAction(e -> {
             ArrayList<Integer> draw = game.generateDrawing();
             ArrayList<Integer> matches = game.getMatches(draw);
+
+            for(int num : draw){
+                System.out.println("From matches: " + num);
+            }
+            int index = 1;
+            for (var node : betCardGrid.getChildren()) {
+                if (draw.contains(index)) {
+                    node.setStyle("-fx-background-radius: 50;" + 
+                          "-fx-border-radius: 50;" +  
+                          "-fx-background-color: #a5a5a5ff;" +
+                          "-fx-text-fill: black;" +
+                          "-fx-font-weight: bold;" +
+                          "-fx-border-color: #FFD700;" + // Yellow/Gold Hex Code
+                          "-fx-border-width: 3px;");
+                }
+                index++;
+            }
+
             int winnings = game.calculateWinnings(matches.size());
         });
         // ---- Click Effect ----
@@ -206,8 +224,17 @@ public class GameScene {
 
         HBox secondRow = new HBox(10, drawCost, ticketBox);
 
-        Button watchDrawLabel = new Button("Watch Drawings");
-        watchDrawLabel.setStyle(
+        // Button watchDrawLabel = new Button("Watch Drawings");
+        // watchDrawLabel.setStyle(
+        //     "-fx-background-color: #D3D3D3;" +
+        //     "-fx-text-fill: black;" + 
+        //     "-fx-font-size: 14px;" +
+        //     "-fx-font-weight: normal;" +
+        //     "-fx-background-radius: 5;" +
+        //     "-fx-padding: 5 10 5 10;"
+        // );
+        Button skipButton = new Button("Skip to Results");
+        skipButton.setStyle(
             "-fx-background-color: #D3D3D3;" +
             "-fx-text-fill: black;" + 
             "-fx-font-size: 14px;" +
@@ -215,15 +242,7 @@ public class GameScene {
             "-fx-background-radius: 5;" +
             "-fx-padding: 5 10 5 10;"
         );
-        Button skipButton = new Button("Skip to Results");
-        skipButton.setStyle(
-            "-fx-background-color: transparent;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 14px;" +
-            "-fx-font-weight: normal;" +
-            "-fx-underline: false;"
-        );
-        HBox thirdRow = new HBox(10, watchDrawLabel, skipButton);
+        HBox thirdRow = new HBox(10, skipButton);
 
         firstRow.setAlignment(Pos.CENTER);
         secondRow.setAlignment(Pos.CENTER);
