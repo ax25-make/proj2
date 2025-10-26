@@ -16,13 +16,11 @@ import javafx.stage.Stage;
 
 public class GameScene {
     private Scene scene;
-    //private KenoGame game;
+    private KenoGame game;
     private GridPane betCardGrid;
     private GridPane drawCost;
+    private Bet currentBet;
     private int spotsSelected;
-    private int drawingsSelected;
-    private Label infoLabel;
-    private Button drawButton;
     private Stage stage;
 
 
@@ -58,8 +56,19 @@ public class GameScene {
 
         for (int i = 1; i <= 80; i++) {
             Button spot = new Button(String.valueOf(i));
-            spot.setDisable(true); // enable later after spot selection
-            //spot.setOnAction(e -> selectNumber(spot));
+            final int number = i;
+
+            spot.setOnAction(e -> {
+                if (currentBet != null) {
+                    if (currentBet.getChosenNumbers().contains(number)) {
+                        currentBet.removeNumber(number);
+                        spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #a5a5a5ff;");
+                    } else if (currentBet.addNumber(number)) {
+                        spot.setStyle("-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #00ff00;");
+                    }
+                }
+            });
+
             spot.setMinSize(40, 40);
             spot.setStyle(
                 "-fx-background-radius: 50;" + 
