@@ -48,6 +48,7 @@ public class GameScene {
         odds.setOnAction(e -> Odds.showOdds());
 
         MenuItem newLook = new MenuItem("New Look");
+        // Implement new look action here
 
         MenuItem exit = new MenuItem("Exit");
         exit.setOnAction(e -> stage.close());
@@ -137,6 +138,19 @@ public class GameScene {
             "-fx-background-radius: 5;" +
             "-fx-padding: 10 10 10 10;"
         );
+
+        // ---- NEW TICKET BUTTON ----
+        Button newTicketButton = new Button("New Ticket");
+        newTicketButton.setDisable(true);
+        newTicketButton.setStyle(
+            "-fx-background-color: #fc0000ff;" +
+            "-fx-text-fill: black;" +
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 5;" +
+            "-fx-padding: 10 10 10 10;"
+        );
+
 
         // ---- ENABLE AUTOPICK ----
         autoPickButton.setOnAction(event -> {
@@ -235,10 +249,37 @@ public class GameScene {
 
                 if (drawings >= numDrawings) {
                     continueButton.setDisable(true);
+                    newTicketButton.setDisable(false);
  
                 }
             }
         });
+
+        newTicketButton.setOnAction(e -> {
+            // Reset selections
+            spotsBox.setValue(null);
+            drawBox.setValue(null);
+
+            // Reset bet and spots
+            // Reset current bet and selected spots
+            selectedSpots = 0;
+            drawings = 0;
+            spotsSelected = 0;
+            numDrawings = 1;
+
+            spotsBox.setDisable(false);
+            drawBox.setDisable(false);
+
+            for (var node : betCardGrid.getChildren()) {
+                if (node instanceof Button) {
+                    Button spot = (Button) node;
+                    spot.setStyle("-fx-background-radius: 50;-fx-border-radius: 50;-fx-background-color: #a5a5a5ff;-fx-text-fill: black;-fx-font-weight: bold;");
+                }
+            }
+            
+            newTicketButton.setDisable(true);
+        });
+
 
         // ---- SPOTS AND DRAWS SELECTION ----
         spotsBox.setOnAction(event -> handleSelection(spotsBox, drawBox, enterTicketButton, autoPickButton));
@@ -246,7 +287,7 @@ public class GameScene {
 
         // ---- LAYOUT ----
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton, continueButton);
-        HBox secondRow = new HBox(10, autoPickButton, costGrid, ticketBox); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        HBox secondRow = new HBox(10, autoPickButton, costGrid, ticketBox, newTicketButton); 
         secondRow.setAlignment(Pos.CENTER);
 
         HBox firstRow = new HBox(10, spotsBox, drawBox);
