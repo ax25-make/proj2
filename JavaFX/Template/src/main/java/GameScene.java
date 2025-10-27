@@ -27,6 +27,7 @@ public class GameScene {
     private int spotsSelected;
     private int numDrawings = 1;
     private int selectedSpots = 0;
+    private int drawings = 0;
 
     public GameScene(Stage stage) {
         stage.setTitle("Keno Game");
@@ -50,50 +51,6 @@ public class GameScene {
 
         menu.getItems().addAll(rules, odds, newLook, exit);
         menuBar.getMenus().add(menu);
-
-        // ---- Bet Card Grid ----
-        betCardGrid = new GridPane();
-        betCardGrid.setHgap(5);
-        betCardGrid.setVgap(5);
-        betCardGrid.setAlignment(Pos.CENTER);
-
-        for (int i = 1; i <= 80; i++) {
-            Button spot = new Button(String.valueOf(i));
-            final int number = i;
-
-            spot.setDisable(true);
-
-            spot.setOnAction(e -> {
-                if (currentBet != null) {
-                    if (currentBet.getChosenNumbers().contains(number)) {
-                        currentBet.removeNumber(number);
-                        spot.setStyle("-fx-background-radius: 50;" + 
-                                        "-fx-border-radius: 50;" +  
-                                        "-fx-background-color: #a5a5a5ff;" +
-                                        "-fx-text-fill: black;" +
-                                        "-fx-font-weight: bold;");
-                        selectedSpots--;
-                    } else if (currentBet.addNumber(number)) {
-                        spot.setStyle("-fx-background-radius: 50;" + 
-                                        "-fx-border-radius: 50;" +  
-                                        "-fx-background-color: #2bff00ff;" +
-                                        "-fx-text-fill: black;" +
-                                        "-fx-font-weight: bold;");
-                        selectedSpots++;
-                    }
-                }
-            });
-
-            spot.setMinSize(40, 40);
-            spot.setStyle(
-                "-fx-background-radius: 50;" + 
-                "-fx-border-radius: 50;" +  
-                "-fx-background-color: #a5a5a5ff;" +
-                "-fx-text-fill: black;" +
-                "-fx-font-weight: bold;"
-            );
-            betCardGrid.add(spot, (i - 1) % 10, (i - 1) / 10);
-        }
 
         Label selectSpotsLabel = new Label("Select Your Spots");
         selectSpotsLabel.setStyle(
@@ -239,7 +196,9 @@ public class GameScene {
                 System.out.println("Selected: " + spotsBox.getValue());
                 enableBetCard();
                 resetBetCard();
-                enterTicketButton.setDisable(false);
+                enterTicketButton.setDisable(true);
+                selectedSpots = 0;
+                drawings = 0;
             }
         });
 
@@ -252,23 +211,11 @@ public class GameScene {
                 System.out.println("Selected: " + spotsBox.getValue());
                 enableBetCard();
                 resetBetCard();
-                enterTicketButton.setDisable(false);
+                enterTicketButton.setDisable(true);
+                selectedSpots = 0;
+                drawings = 0;
             }
         });
-
-        //If selected numbers don't match up with drawings number, then don't enable "enter ticket"
-        int drawings = 0;
-        if(drawBox.getValue() != null){
-            drawings = Integer.parseInt(drawBox.getValue());
-        }
-        
-        
-        if(selectedSpots == drawings){
-            enterTicketButton.setDisable(true);
-        }
-        else{
-            enterTicketButton.setDisable(false);
-        }
 
         HBox firstRow = new HBox(10, spotsBox, drawBox);
 
@@ -280,6 +227,79 @@ public class GameScene {
         miniMenu.setStyle(
             "-fx-padding: 20 0 0 0;"
         );
+
+        // ---- Bet Card Grid ----
+        betCardGrid = new GridPane();
+        betCardGrid.setHgap(5);
+        betCardGrid.setVgap(5);
+        betCardGrid.setAlignment(Pos.CENTER);
+
+        for (int i = 1; i <= 80; i++) {
+            Button spot = new Button(String.valueOf(i));
+            final int number = i;
+
+            spot.setDisable(true);
+
+            spot.setOnAction(e -> {
+                if (currentBet != null) {
+                    if (currentBet.getChosenNumbers().contains(number)) {
+                        currentBet.removeNumber(number);
+                        spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #a5a5a5ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
+                        selectedSpots--;
+                        
+                        //If selected numbers don't match up with drawings number, then don't enable "enter ticket"
+                        drawings = 0;
+                        if(spotsBox.getValue() != null){
+                            drawings = Integer.parseInt(spotsBox.getValue());
+                        }
+                        
+                        
+                        if(selectedSpots == drawings){
+                            enterTicketButton.setDisable(false);
+                        }
+                        else{
+                            enterTicketButton.setDisable(true);
+                        }
+                        System.out.println("Selected total" + selectedSpots + "Set Drawings" + drawings);
+                    } else if (currentBet.addNumber(number)) {
+                        spot.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #2bff00ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
+                        selectedSpots++;
+                        //If selected numbers don't match up with drawings number, then don't enable "enter ticket"
+                        drawings = 0;
+                        if(spotsBox.getValue() != null){
+                            drawings = Integer.parseInt(spotsBox.getValue());
+                        }
+                        
+                        
+                        if(selectedSpots == drawings){
+                            enterTicketButton.setDisable(false);
+                        }
+                        else{
+                            enterTicketButton.setDisable(true);
+                        }
+                        System.out.println("Selected total" + selectedSpots + "Set Drawings" + drawings);
+                    }
+                }
+            });
+
+            spot.setMinSize(40, 40);
+            spot.setStyle(
+                "-fx-background-radius: 50;" + 
+                "-fx-border-radius: 50;" +  
+                "-fx-background-color: #a5a5a5ff;" +
+                "-fx-text-fill: black;" +
+                "-fx-font-weight: bold;"
+            );
+            betCardGrid.add(spot, (i - 1) % 10, (i - 1) / 10);
+        }
 
         VBox layout = new VBox(10, selectSpotsLabel, betCardGrid, miniMenu);
         layout.setAlignment(Pos.TOP_CENTER);
