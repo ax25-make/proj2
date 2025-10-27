@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 
 public class GameScene {
@@ -181,6 +184,16 @@ public class GameScene {
             "-fx-padding: 10 10 10 10;"
         );
 
+        // --- NEW GAME BUTTON ----
+        Button newGameButton = new Button("New Game");
+        newGameButton.setStyle(
+            "-fx-background-color: #32CD32;" + // lime green
+            "-fx-text-fill: black;" +
+            "-fx-font-size: 16px;" +
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 5;" +
+            "-fx-padding: 10 10 10 10;"
+        );
 
         // ---- ENABLE AUTOPICK ----
         autoPickButton.setOnAction(event -> {
@@ -309,6 +322,9 @@ public class GameScene {
         miniMenu.setAlignment(Pos.TOP_CENTER);
         miniMenu.setStyle("-fx-padding: 20 0 0 0;");
 
+        HBox bottomBox = new HBox(10, newGameButton);
+        bottomBox.setAlignment(Pos.CENTER);
+
         // ---- BET CARD GRID ----
         betCardGrid = new GridPane();
         betCardGrid.setHgap(5);
@@ -350,6 +366,7 @@ public class GameScene {
         borderPane.setPadding(new Insets(10));
         borderPane.setTop(menuBar);
         borderPane.setCenter(layout);
+        borderPane.setBottom(bottomBox);
 
         //Change results screen
         resultsButton.setOnAction(event -> {
@@ -504,6 +521,59 @@ public class GameScene {
             newTicketButton.setDisable(true);
             centerSwapPane.getChildren().setAll(betCardGrid);
         });
+
+        newGameButton.setOnAction(e -> {
+            // Reset balance and ticket cost
+            playerBalance = 15;
+            ticketCost = 1;
+            balanceLabel.setText("$" + playerBalance);
+            ((Label) costGrid.getChildren().get(1)).setText("$" + ticketCost);
+
+            // Reset selections
+            selectedSpots = 0;
+            drawings = 0;
+            spotsSelected = 0;
+            numDrawings = 1;
+
+            // Reset spots/draws combo boxes
+            spotsBox.setValue(null);
+            drawBox.setValue(null);
+            spotsBox.setDisable(false);
+            drawBox.setDisable(false);
+
+            // Clear current bet
+            if (currentBet != null) currentBet.reset();
+            currentBet = null;
+            game.setBet(null);
+
+            // Reset bet card
+            for (var node : betCardGrid.getChildren()) {
+                if (node instanceof Button) {
+                    Button spot = (Button) node;
+                    spot.setStyle("-fx-background-radius: 50;"
+                            + "-fx-border-radius: 50;"
+                            + "-fx-background-color: #a5a5a5ff;"
+                            + "-fx-text-fill: black;"
+                            + "-fx-font-weight: bold;");
+                }
+            }
+
+            disableBetCard(true);
+
+            // Hide newGameButton, show newTicketButton
+            newTicketButton.setDisable(true);
+            centerSwapPane.getChildren().setAll(betCardGrid);
+
+            // Re-enable regular gameplay buttons
+            enterTicketButton.setDisable(true);
+            autoPickButton.setDisable(true);
+            continueButton.setDisable(true);
+            resultsButton.setDisable(true);
+
+            game.resetGame();
+        });
+
+
     }
 
     // ---- HANDLE SELECTION OF SPOTS AND DRAWS ----
@@ -527,20 +597,55 @@ public class GameScene {
     // ---- HIGHLIGHT DRAW ----
     private void highlightDraw(ArrayList<Integer> draw, ArrayList<Integer> matches) {
         resetBetCard();
+        disableBetCard(true); // prevent clicking during animation
+
+        // Convert draw to list of actual Button references for easier animation
+        ArrayList<Button> buttonsToAnimate = new ArrayList<>();
         int index = 1;
         for (var node : betCardGrid.getChildren()) {
             if (node instanceof Button) {
                 Button spot = (Button) node;
                 if (draw.contains(index)) {
-                    if (matches.contains(index)) {
-                        spot.setStyle("-fx-background-radius: 50;-fx-border-radius: 50;-fx-background-color: #2bff00ff;-fx-text-fill: black;-fx-font-weight: bold;-fx-border-color: #FFD700;-fx-border-width: 3px;");
-                    } else {
-                        spot.setStyle("-fx-background-radius: 50;-fx-border-radius: 50;-fx-background-color: #a5a5a5ff;-fx-text-fill: black;-fx-font-weight: bold;-fx-border-color: #FFD700;-fx-border-width: 3px;");
-                    }
+                    buttonsToAnimate.add(spot);
                 }
                 index++;
             }
         }
+
+        // Timeline animation: show one draw at a time
+        Timeline timeline = new Timeline();
+        for (int i = 0; i < buttonsToAnimate.size(); i++) {
+            final int num = i; // capture for lambda
+            KeyFrame keyFrame = new KeyFrame(Duration.millis(150 * i), e -> {
+                Button spot = buttonsToAnimate.get(num);
+                int spotNumber = Integer.parseInt(spot.getText());
+                
+                if (matches.contains(spotNumber)) {
+                    // Green for matched numbers
+                    spot.setStyle("-fx-background-radius: 50;"
+                            + "-fx-border-radius: 50;"
+                            + "-fx-background-color: #2bff00ff;"
+                            + "-fx-text-fill: black;"
+                            + "-fx-font-weight: bold;"
+                            + "-fx-border-color: #FFD700;"
+                            + "-fx-border-width: 3px;");
+                } else {
+                    // Gray with gold border for drawn numbers
+                    spot.setStyle("-fx-background-radius: 50;"
+                            + "-fx-border-radius: 50;"
+                            + "-fx-background-color: #a5a5a5ff;"
+                            + "-fx-text-fill: black;"
+                            + "-fx-font-weight: bold;"
+                            + "-fx-border-color: #FFD700;"
+                            + "-fx-border-width: 3px;");
+                }
+            });
+            timeline.getKeyFrames().add(keyFrame);
+        }
+
+        // When animation finishes, re-enable bet card if needed
+        timeline.setOnFinished(e -> disableBetCard(true));
+        timeline.play();
     }
 
     private void resetBetCard() {
