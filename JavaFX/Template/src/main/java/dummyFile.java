@@ -68,34 +68,34 @@ public class GameScene {
         );
 
 
-        Button autoPickButton = new Button("Auto Pick");
-        autoPickButton.setDisable(true);
+        // Button autoPickButton = new Button("Auto Pick");
+        // autoPickButton.setDisable(true);
 
-        autoPickButton.setStyle(
-            "-fx-background-color: #D3D3D3;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 16px;" + 
-            "-fx-font-weight: normal;" + 
-            "-fx-background-radius: 3;" +
-            "-fx-padding: 8 15 8 15;"
-        );
-        // ---- Click Effect ---- ^
-		autoPickButton.setOnMouseReleased(e -> autoPickButton.setStyle(
-			"-fx-background-color: #D3D3D3;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 16px;" + 
-            "-fx-font-weight: normal;" + 
-            "-fx-background-radius: 3;" +
-            "-fx-padding: 8 15 8 15;"
-		));
-		autoPickButton.setOnMousePressed(e -> autoPickButton.setStyle(
-			"-fx-background-color: #B0B0B0;" + 
-            "-fx-text-fill: black;" + 
-            "-fx-font-size: 16px;" + 
-            "-fx-font-weight: normal;" + 
-            "-fx-background-radius: 3;" +
-            "-fx-padding: 8 15 8 15;"
-		));	
+        // autoPickButton.setStyle(
+        //     "-fx-background-color: #D3D3D3;" + 
+        //     "-fx-text-fill: black;" + 
+        //     "-fx-font-size: 16px;" + 
+        //     "-fx-font-weight: normal;" + 
+        //     "-fx-background-radius: 3;" +
+        //     "-fx-padding: 8 15 8 15;"
+        // );
+        // // ---- Click Effect ---- ^
+		// autoPickButton.setOnMouseReleased(e -> autoPickButton.setStyle(
+		// 	"-fx-background-color: #D3D3D3;" + 
+        //     "-fx-text-fill: black;" + 
+        //     "-fx-font-size: 16px;" + 
+        //     "-fx-font-weight: normal;" + 
+        //     "-fx-background-radius: 3;" +
+        //     "-fx-padding: 8 15 8 15;"
+		// ));
+		// autoPickButton.setOnMousePressed(e -> autoPickButton.setStyle(
+		// 	"-fx-background-color: #B0B0B0;" + 
+        //     "-fx-text-fill: black;" + 
+        //     "-fx-font-size: 16px;" + 
+        //     "-fx-font-weight: normal;" + 
+        //     "-fx-background-radius: 3;" +
+        //     "-fx-padding: 8 15 8 15;"
+		// ));	
         
 
         // ---- COST GRID ----
