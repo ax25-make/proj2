@@ -55,7 +55,20 @@ public class GameScene {
         odds.setOnAction(e -> Odds.showOdds());
 
         MenuItem newLook = new MenuItem("New Look");
-        // Implement new look action here
+        newLook.setOnAction(e -> {
+        // Toggle between two themes: light and dark
+        String currentStyle = borderPane.getStyle();
+
+        if (currentStyle.contains("#ececec")) {
+            // Switch to dark mode
+            borderPane.setStyle("-fx-background-color: #2e2e2e;");
+            betCardGrid.setStyle("-fx-background-color: #3a3a3a;");
+        } else {
+            // Switch back to light mode
+            borderPane.setStyle("-fx-background-color: #ecececff;");
+            betCardGrid.setStyle("-fx-background-color: transparent;");
+        }
+    });
 
         MenuItem exit = new MenuItem("Exit");
         exit.setOnAction(e -> stage.close());
@@ -377,7 +390,7 @@ public class GameScene {
             // Multi-draw: enable Continue, disable Enter Ticket and selections
             if (numDrawings >= 2 && numDrawings <= 4) {
                 continueButton.setDisable(false);
-                
+
                 resultsButton.setDisable(true);
                 enterTicketButton.setDisable(true);
                 autoPickButton.setDisable(true);
