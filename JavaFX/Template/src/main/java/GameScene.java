@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import javafx.util.Duration;
+import java.util.Random;
+import java.util.Collections;
 
 public class GameScene {
     private Scene scene;
@@ -28,6 +30,9 @@ public class GameScene {
     private int numDrawings = 1;
     private int selectedSpots = 0;
     private int drawings = 0;
+    private ArrayList<Integer> autoNumbers = new ArrayList<>();
+    private Random random = new Random();
+    private ArrayList<Integer> randomDraw = new ArrayList<>(autoNumbers.subList(0, spotsSelected));
 
     public GameScene(Stage stage) {
         stage.setTitle("Keno Game");
@@ -61,6 +66,37 @@ public class GameScene {
             "-fx-background-radius: 20;" +     
             "-fx-padding: 10px 30px 10px 30px;"
         );
+
+
+        Button autoPickButton = new Button("Auto Pick");
+        autoPickButton.setDisable(true);
+
+        autoPickButton.setStyle(
+            "-fx-background-color: #D3D3D3;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" + 
+            "-fx-font-weight: normal;" + 
+            "-fx-background-radius: 3;" +
+            "-fx-padding: 8 15 8 15;"
+        );
+        // ---- Click Effect ---- ^
+		autoPickButton.setOnMouseReleased(e -> autoPickButton.setStyle(
+			"-fx-background-color: #D3D3D3;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" + 
+            "-fx-font-weight: normal;" + 
+            "-fx-background-radius: 3;" +
+            "-fx-padding: 8 15 8 15;"
+		));
+		autoPickButton.setOnMousePressed(e -> autoPickButton.setStyle(
+			"-fx-background-color: #B0B0B0;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 16px;" + 
+            "-fx-font-weight: normal;" + 
+            "-fx-background-radius: 3;" +
+            "-fx-padding: 8 15 8 15;"
+		));	
+        
 
         // ---- COST GRID ----
         costGrid = new GridPane();
@@ -150,7 +186,7 @@ public class GameScene {
 
 
         HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
-        HBox secondRow = new HBox(10, costGrid, ticketBox);
+        HBox secondRow = new HBox(10, autoPickButton, costGrid, ticketBox);
 
         // ---- DRAW BUTTON ----
         ComboBox<String> drawBox = new ComboBox<>(FXCollections.observableArrayList("1", "2", "3", "4"));
@@ -197,6 +233,7 @@ public class GameScene {
                 enableBetCard();
                 resetBetCard();
                 enterTicketButton.setDisable(true);
+                autoPickButton.setDisable(false);
                 selectedSpots = 0;
                 drawings = 0;
             }
@@ -212,6 +249,7 @@ public class GameScene {
                 enableBetCard();
                 resetBetCard();
                 enterTicketButton.setDisable(true);
+                autoPickButton.setDisable(false);
                 selectedSpots = 0;
                 drawings = 0;
             }
@@ -221,6 +259,7 @@ public class GameScene {
 
         firstRow.setAlignment(Pos.CENTER);
         secondRow.setAlignment(Pos.CENTER);
+        // thirdRow.setAlignment(Pos.CENTER);
 
         VBox miniMenu = new VBox(10, firstRow, secondRow);
         miniMenu.setAlignment(Pos.TOP_CENTER);
@@ -288,6 +327,37 @@ public class GameScene {
                         System.out.println("Selected total" + selectedSpots + "Set Drawings" + drawings);
                     }
                 }
+            });
+
+            autoPickButton.setOnAction(event -> {
+                currentBet.reset();
+                resetBetCard();
+                
+                autoNumbers = new ArrayList<>();
+
+                for (int x = 1; x <= 80; x++) {
+                    autoNumbers.add(x);
+                }
+                Collections.shuffle(autoNumbers, random);
+                randomDraw = new ArrayList<>(autoNumbers.subList(0, spotsSelected));
+                Collections.sort(randomDraw);
+
+                int index = 1;
+                selectedSpots = spotsSelected;
+                enterTicketButton.setDisable(false);
+                for (var node : betCardGrid.getChildren()) {
+                    if (randomDraw.contains(index)) {
+                        node.setStyle("-fx-background-radius: 50;" + 
+                                        "-fx-border-radius: 50;" +  
+                                        "-fx-background-color: #2bff00ff;" +
+                                        "-fx-text-fill: black;" +
+                                        "-fx-font-weight: bold;");
+                        currentBet.addNumber(index);
+                    }
+                    
+                    index++;
+                }
+
             });
 
             spot.setMinSize(40, 40);
