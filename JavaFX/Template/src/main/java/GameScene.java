@@ -106,9 +106,31 @@ public class GameScene {
         // ---- DRAW AND SPOTS COMBOBOX ----
         ComboBox<String> drawBox = new ComboBox<>(FXCollections.observableArrayList("1", "2", "3", "4"));
         drawBox.setPromptText("Draws");
+        drawBox.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 12px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
+        );
 
         ComboBox<String> spotsBox = new ComboBox<>(FXCollections.observableArrayList("1", "4", "8", "10"));
         spotsBox.setPromptText("1, 4, 8, or 10 Spots");
+        spotsBox.setStyle(
+            "-fx-background-color: white;" + 
+            "-fx-text-fill: black;" + 
+            "-fx-font-size: 12px;" + 
+            "-fx-font-weight: bold;" +
+            "-fx-background-radius: 25;" + 
+            "-fx-border-color: #A0A0A0;" + 
+            "-fx-border-width: 1;" +
+            "-fx-border-radius: 25;" +
+            "-fx-padding: 10 20 10 20;"
+        );
 
         // ---- BUTTON ACTIONS ----
         enterTicketButton.setOnAction(e -> {
@@ -119,6 +141,8 @@ public class GameScene {
 
             int winnings = game.calculateWinnings(matches.size());
             System.out.println("Winnings:" + winnings);
+            int totalWinnings = game.getTotalWinnings();
+            System.out.println("Total Winnings: " + totalWinnings);
 
             // Multi-draw: enable Continue, disable Enter Ticket and selections
             if (numDrawings >= 2 && numDrawings <= 4) {
@@ -127,10 +151,7 @@ public class GameScene {
                 spotsBox.setDisable(true);
                 drawBox.setDisable(true);
                 disableBetCard(true);
-            } else {
-                continueButton.setDisable(true);
-                enterTicketButton.setDisable(true);
-            }
+            } 
         });
 
         continueButton.setOnAction(e -> {
@@ -142,13 +163,12 @@ public class GameScene {
 
                 int winnings = game.calculateWinnings(matches.size());
                 System.out.println("Winnings from draw " + drawings + ": " + winnings);
+                int totalWinnings = game.getTotalWinnings();
+                System.out.println("Total Winnings: " + totalWinnings);
 
                 if (drawings >= numDrawings) {
                     continueButton.setDisable(true);
-                    enterTicketButton.setDisable(false);
-                    spotsBox.setDisable(false);
-                    drawBox.setDisable(false);
-                    disableBetCard(false);
+ 
                 }
             }
         });
@@ -178,7 +198,6 @@ public class GameScene {
         for (int i = 1; i <= 80; i++) {
             Button spot = new Button(String.valueOf(i));
             final int number = i;
-            spot.setDisable(true);
 
             spot.setOnAction(e -> {
                 if (currentBet != null) {
@@ -198,6 +217,7 @@ public class GameScene {
             spot.setStyle("-fx-background-radius: 50;-fx-border-radius: 50;-fx-background-color: #a5a5a5ff;-fx-text-fill: black;-fx-font-weight: bold;");
             betCardGrid.add(spot, (i - 1) % 10, (i - 1) / 10);
         }
+        disableBetCard(true);
 
         VBox layout = new VBox(10, selectSpotsLabel, betCardGrid, miniMenu);
         layout.setAlignment(Pos.TOP_CENTER);
@@ -263,7 +283,8 @@ public class GameScene {
     private void enableBetCard() {
         for (var node : betCardGrid.getChildren()) {
             if (node instanceof Button) {
-                node.setDisable(false);
+                node.setMouseTransparent(false); 
+                node.setFocusTraversable(true); 
             }
         }
     }
@@ -271,11 +292,12 @@ public class GameScene {
     private void disableBetCard(boolean disable) {
         for (var node : betCardGrid.getChildren()) {
             if (node instanceof Button) {
-                node.setDisable(disable);
+                node.setMouseTransparent(disable); 
+                node.setFocusTraversable(!disable); 
             }
         }
     }
-
+    
     public Scene getScene() {
         return scene;
     }
