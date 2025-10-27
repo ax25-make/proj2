@@ -229,6 +229,7 @@ public class GameScene {
             if (numDrawings >= 2 && numDrawings <= 4) {
                 continueButton.setDisable(false);
                 enterTicketButton.setDisable(true);
+                autoPickButton.setDisable(true);
                 spotsBox.setDisable(true);
                 drawBox.setDisable(true);
                 disableBetCard(true);
