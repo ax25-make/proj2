@@ -287,14 +287,16 @@ public class GameScene {
         drawBox.setOnAction(event -> handleSelection(spotsBox, drawBox, enterTicketButton, autoPickButton));
 
         // ---- LAYOUT ----
-        HBox ticketBox = new HBox(10, formPNGView, enterTicketButton, continueButton);
-        HBox secondRow = new HBox(10, autoPickButton, costGrid, ticketBox, newTicketButton); 
+        HBox ticketBox = new HBox(10, formPNGView, enterTicketButton);
+        HBox secondRow = new HBox(10, autoPickButton, costGrid, ticketBox); 
+        HBox thirdRow = new HBox(10, continueButton, newTicketButton);
         secondRow.setAlignment(Pos.CENTER);
+        thirdRow.setAlignment(Pos.CENTER);
 
         HBox firstRow = new HBox(10, spotsBox, drawBox);
         firstRow.setAlignment(Pos.CENTER);
 
-        VBox miniMenu = new VBox(10, firstRow, secondRow);
+        VBox miniMenu = new VBox(10, firstRow, secondRow, thirdRow);
         miniMenu.setAlignment(Pos.TOP_CENTER);
         miniMenu.setStyle("-fx-padding: 20 0 0 0;");
 
