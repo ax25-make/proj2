@@ -363,10 +363,21 @@ public class GameScene {
             int totalWinnings = game.getTotalWinnings();
             System.out.println("Total Winnings: " + totalWinnings);
 
+            if (numDrawings == 1) {
+                resultsButton.setDisable(false);
+                newTicketButton.setDisable(false);
+                autoPickButton.setDisable(true);
+                enterTicketButton.setDisable(true);
+                spotsBox.setDisable(false);
+                drawBox.setDisable(false);
+                disableBetCard(true);
+            }
+
+
             // Multi-draw: enable Continue, disable Enter Ticket and selections
             if (numDrawings >= 2 && numDrawings <= 4) {
                 continueButton.setDisable(false);
-
+                
                 resultsButton.setDisable(true);
                 enterTicketButton.setDisable(true);
                 autoPickButton.setDisable(true);
