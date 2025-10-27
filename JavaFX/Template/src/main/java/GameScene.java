@@ -36,6 +36,9 @@ public class GameScene {
     private ArrayList<Integer> randomDraw = new ArrayList<>(autoNumbers.subList(0, spotsSelected));
     private BorderPane borderPane;
     private String winningString;
+    private String matchString;
+    private Label winningsLabel;
+    private Label matchLabel;
 
     public GameScene(Stage stage) {
         stage.setTitle("Keno Game");
@@ -226,7 +229,7 @@ public class GameScene {
         dogPNGView.setFitWidth(100);
         dogPNGView.setPreserveRatio(true);
 
-        Label matchLabel = new Label("No Spots Matched");
+        matchLabel = new Label("No Spots Matched");
         matchLabel.setStyle(
             "-fx-text-fill: black;" + 
             "-fx-font-size: 18px;" +
@@ -234,7 +237,7 @@ public class GameScene {
         );
 
         winningString = "Ticket Winnings:\n$0";
-        Label winningsLabel = new Label(winningString);
+        winningsLabel = new Label(winningString);
 
         winningsLabel.setStyle(
             "-fx-background-color: white;" + 
@@ -321,38 +324,27 @@ public class GameScene {
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setStyle("-fx-padding: 30 0 0 0;");
 
-        this.borderPane = new BorderPane(); 
-        this.borderPane.setStyle("-fx-background-color: #ecececff;");
-        this.borderPane.setPadding(new Insets(10));
-        this.borderPane.setTop(menuBar);
-        this.borderPane.setCenter(layout);
+        borderPane = new BorderPane(); 
+        borderPane.setStyle("-fx-background-color: #ecececff;");
+        borderPane.setPadding(new Insets(10));
+        borderPane.setTop(menuBar);
+        borderPane.setCenter(layout);
 
         //Change results screen
         resultsButton.setOnAction(event -> {
             centerSwapPane.getChildren().setAll(resultsBox);
             //Labu
-
-            // System.out.println("Winnings from draw " + drawings + ": " + winnings);
-            //     int totalWinnings = game.getTotalWinnings();
-            //     System.out.println("Total Winnings: " + totalWinnings);
-            // if(totalWinnings == 0){
-            //     matchLabel = new Label("No Spots Matched");
-            //     matchLabel.setStyle(
-            //         "-fx-text-fill: black;" + 
-            //         "-fx-font-size: 18px;" +
-            //         "-fx-font-weight: normal;"
-            //     );
-            //     winningString = "Ticket Winnings:\n$" + totalWinnings;
-            // }
-            // else{
-            //     matchLabel = new Label("No Spots Matched");
-            //     matchLabel.setStyle(
-            //         "-fx-text-fill: black;" + 
-            //         "-fx-font-size: 18px;" +
-            //         "-fx-font-weight: normal;"
-            //     );
-            //     winningString = "Ticket Winnings:\n$0";
-            // }
+            int totalWinnings = game.getTotalWinnings();
+            if(totalWinnings == 0){
+                matchString = "No Spots Matched";
+                winningString = "Ticket Winnings:\n$" + totalWinnings;
+            }
+            else{
+                matchString = "CONGRATULATIONS! YOU WON! -Alex Xu";
+                winningString = "Ticket Winnings:\n$" + totalWinnings;
+            }
+            matchLabel.setText(matchString);
+            winningsLabel.setText(winningString);
 
             
         });
