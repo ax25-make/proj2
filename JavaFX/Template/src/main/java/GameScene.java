@@ -290,8 +290,6 @@ public class GameScene {
             "-fx-padding: 10 10 10 10;"
         );
 
-        
-
 
         // ---- SPOTS AND DRAWS SELECTION ----
         spotsBox.setOnAction(event -> handleSelection(spotsBox, drawBox, enterTicketButton, autoPickButton));
