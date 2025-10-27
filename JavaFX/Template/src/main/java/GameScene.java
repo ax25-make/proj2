@@ -374,7 +374,12 @@ public class GameScene {
             matchLabel.setText(matchString);
             winningsLabel.setText(winningString);
 
-            
+            enterTicketButton.setDisable(true);
+            continueButton.setDisable(true);
+            autoPickButton.setDisable(true);
+            resultsButton.setDisable(true);
+            spotsBox.setDisable(true);
+            drawBox.setDisable(true);
         });
 
         scene = new Scene(borderPane, 700, 900);
@@ -383,7 +388,6 @@ public class GameScene {
         enterTicketButton.setOnAction(e -> {
             // Deduct cost once when starting draws
             playerBalance -= ticketCost;
-            if (playerBalance < 0) playerBalance = 0;
             balanceLabel.setText("$" + playerBalance);
 
             // Check if player is out of money
@@ -391,6 +395,8 @@ public class GameScene {
                 disableAllGameplay();
                 matchLabel.setText("You’re out of money!");
                 winningsLabel.setText("Game Over");
+                autoPickButton.setDisable(true);
+                enterTicketButton.setDisable(true);
                 resultsButton.setDisable(false);
                 return;
             }
@@ -507,7 +513,7 @@ public class GameScene {
         if (spotsBox.getValue() != null && drawBox.getValue() != null) {
             spotsSelected = Integer.parseInt(spotsBox.getValue());
             numDrawings = Integer.parseInt(drawBox.getValue());
-            ticketCost = 1;
+            ticketCost = 1 * numDrawings;
             ((Label) costGrid.getChildren().get(1)).setText("$" + ticketCost);
             currentBet = new Bet(spotsSelected, numDrawings);
             game.setBet(currentBet);
