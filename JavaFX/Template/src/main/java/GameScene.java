@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+
 public class GameScene {
     private Scene scene;
     private KenoGame game;
@@ -39,6 +40,10 @@ public class GameScene {
     private String matchString;
     private Label winningsLabel;
     private Label matchLabel;
+
+    private int playerBalance = 10;  // starting money
+    private int ticketCost = 1;       // cost per draw
+    private Label balanceLabel;
 
     public GameScene(Stage stage) {
         stage.setTitle("Keno Game");
@@ -122,11 +127,16 @@ public class GameScene {
         costGrid.setVgap(5);
         costGrid.setAlignment(Pos.CENTER);
 
-        Label costLabel = new Label("Cost:");
-        Label costValueLabel = new Label("-");
+        Label costLabel = new Label("Ticket Cost:");
+        Label costValueLabel = new Label("$" + ticketCost);
 
-        costGrid.add(costLabel, 1, 0);
-        costGrid.add(costValueLabel, 1, 1);
+        Label balanceTextLabel = new Label("Balance:");
+        balanceLabel = new Label("$" + playerBalance);
+
+        costGrid.add(costLabel, 0, 0);
+        costGrid.add(costValueLabel, 1, 0);
+        costGrid.add(balanceTextLabel, 0, 1);
+        costGrid.add(balanceLabel, 1, 1);
 
         // ---- IMAGE ----
         Image formPNG = new Image("https://static.thenounproject.com/png/25603-200.png"); 
@@ -366,15 +376,31 @@ public class GameScene {
 
         // ---- BUTTON ACTIONS ----
         enterTicketButton.setOnAction(e -> {
+            // Deduct cost once when starting draws
+            playerBalance -= ticketCost;
+            if (playerBalance < 0) playerBalance = 0;
+            balanceLabel.setText("$" + playerBalance);
+
+            // Check if player is out of money
+            if (playerBalance <= 0) {
+                disableAllGameplay();
+                matchLabel.setText("You’re out of money!");
+                winningsLabel.setText("Game Over");
+                resultsButton.setDisable(false);
+                return;
+            }
+
             drawings = 1;
             ArrayList<Integer> draw = game.generateDrawing();
             ArrayList<Integer> matches = game.getMatches(draw);
             highlightDraw(draw, matches);
 
             int winnings = game.calculateWinnings(matches.size());
+            playerBalance += winnings;
+            balanceLabel.setText("$" + playerBalance);
+
             System.out.println("Winnings:" + winnings);
-            int totalWinnings = game.getTotalWinnings();
-            System.out.println("Total Winnings: " + totalWinnings);
+            System.out.println("Total Winnings: " + game.getTotalWinnings());
 
             if (numDrawings == 1) {
                 resultsButton.setDisable(false);
@@ -384,39 +410,61 @@ public class GameScene {
                 spotsBox.setDisable(false);
                 drawBox.setDisable(false);
                 disableBetCard(true);
-            }
-
-
-            // Multi-draw: enable Continue, disable Enter Ticket and selections
-            if (numDrawings >= 2 && numDrawings <= 4) {
+            } else if (numDrawings >= 2 && numDrawings <= 4) {
                 continueButton.setDisable(false);
-
                 resultsButton.setDisable(true);
                 enterTicketButton.setDisable(true);
                 autoPickButton.setDisable(true);
                 spotsBox.setDisable(true);
                 drawBox.setDisable(true);
                 disableBetCard(true);
-            } 
+            }
+
+            // Check for loss after winnings
+            if (playerBalance <= 0) {
+                disableAllGameplay();
+                matchLabel.setText("You’re out of money!");
+                winningsLabel.setText("Game Over");
+                resultsButton.setDisable(false);
+            }
         });
 
         continueButton.setOnAction(e -> {
             if (currentBet != null && drawings < numDrawings) {
+                // Check if player has enough money for next draw
+                if (playerBalance < ticketCost) {
+                    disableAllGameplay();
+                    matchLabel.setText("Not enough money to continue!");
+                    winningsLabel.setText("Game Over");
+                    continueButton.setDisable(true);
+                    newTicketButton.setDisable(false);
+                    resultsButton.setDisable(false);
+                    return;
+                }
+
+                // Deduct ticket cost before performing draw
+                playerBalance -= ticketCost;
+                balanceLabel.setText("$" + playerBalance);
+
+                // Perform the draw
                 ArrayList<Integer> draw = game.generateDrawing();
                 ArrayList<Integer> matches = game.getMatches(draw);
                 highlightDraw(draw, matches);
                 drawings++;
 
+                // Calculate winnings and add to balance
                 int winnings = game.calculateWinnings(matches.size());
-                System.out.println("Winnings from draw " + drawings + ": " + winnings);
-                int totalWinnings = game.getTotalWinnings();
-                System.out.println("Total Winnings: " + totalWinnings);
+                playerBalance += winnings;
+                balanceLabel.setText("$" + playerBalance);
 
+                System.out.println("Winnings from draw " + drawings + ": " + winnings);
+                System.out.println("Total Winnings: " + game.getTotalWinnings());
+
+                // Disable Continue if final draw reached
                 if (drawings >= numDrawings) {
                     continueButton.setDisable(true);
-                    resultsButton.setDisable(false);
                     newTicketButton.setDisable(false);
- 
+                    resultsButton.setDisable(false);
                 }
             }
         });
@@ -454,6 +502,8 @@ public class GameScene {
         if (spotsBox.getValue() != null && drawBox.getValue() != null) {
             spotsSelected = Integer.parseInt(spotsBox.getValue());
             numDrawings = Integer.parseInt(drawBox.getValue());
+            ticketCost = 1;
+            ((Label) costGrid.getChildren().get(1)).setText("$" + ticketCost);
             currentBet = new Bet(spotsSelected, numDrawings);
             game.setBet(currentBet);
             enableBetCard();
@@ -517,6 +567,11 @@ public class GameScene {
         }
     }
     
+    private void disableAllGameplay() {
+        disableBetCard(true);
+    }
+
+
     public Scene getScene() {
         return scene;
     }
