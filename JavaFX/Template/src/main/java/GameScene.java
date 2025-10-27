@@ -41,7 +41,7 @@ public class GameScene {
     private Label winningsLabel;
     private Label matchLabel;
 
-    private int playerBalance = 10;  // starting money
+    private int playerBalance = 15;  // starting money
     private int ticketCost = 1;       // cost per draw
     private Label balanceLabel;
 
@@ -358,10 +358,15 @@ public class GameScene {
             centerSwapPane.getChildren().setAll(resultsBox);
             //Labu
             int totalWinnings = game.getTotalWinnings();
-            if(totalWinnings == 0){
+            if (playerBalance <= 0) {
+                matchString = "You’re out of money!";
+                winningString = "Game Over";
+
+            }
+            else if (totalWinnings == 0) {
                 matchString = "No Spots Matched";
                 winningString = "Ticket Winnings:\n$" + totalWinnings;
-            }
+            } 
             else{
                 matchString = "CONGRATULATIONS! YOU WON! -Alex Xu";
                 winningString = "Ticket Winnings:\n$" + totalWinnings;
